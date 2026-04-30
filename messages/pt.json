@@ -1,0 +1,282 @@
+{
+  "site": {
+    "name": "Kadoa Sourires & Souvenirs",
+    "tagline": "Personalização, artesanato e lembranças únicas",
+    "address": "Lausanne, Suíça"
+  },
+  "nav": {
+    "home": "Início",
+    "products": "Produtos",
+    "categories": "Categorias",
+    "about": "Sobre",
+    "contact": "Contacto",
+    "faq": "FAQ",
+    "quote": "Pedir orçamento",
+    "cart": "Carrinho",
+    "admin": "Admin"
+  },
+  "categories": {
+    "baby_shower": "Baby Shower",
+    "corporate": "Eventos Corporativos",
+    "wedding": "Casamentos",
+    "baptism": "Batizados",
+    "birthday": "Aniversários"
+  },
+  "home": {
+    "hero": {
+      "title": "Lembranças que fazem sorrir",
+      "subtitle": "Impressão 3D · Gravação laser · Sublimação · Impressão UV. Artesanato em Lausanne.",
+      "ctaPrimary": "Ver produtos",
+      "ctaSecondary": "Pedir orçamento"
+    },
+    "services": {
+      "title": "O nosso saber-fazer",
+      "subtitle": "Quatro técnicas para dar vida às suas ideias",
+      "items": {
+        "print3d": { "title": "Impressão 3D", "desc": "Objetos personalizados modelados e impressos no nosso atelier." },
+        "laser": { "title": "Gravação laser", "desc": "Precisão milimétrica em madeira, acrílico, metal e couro." },
+        "sublimation": { "title": "Sublimação", "desc": "Impressão duradoura a cores em têxteis e acessórios." },
+        "uv": { "title": "Impressão UV", "desc": "Cores vivas e resistentes em quase todas as superfícies." }
+      }
+    },
+    "categoriesSection": {
+      "title": "Para cada ocasião",
+      "subtitle": "Encontre a lembrança perfeita para o seu evento"
+    },
+    "featured": {
+      "title": "Favoritos dos clientes",
+      "subtitle": "Uma seleção dos nossos produtos mais apreciados"
+    },
+    "cta": {
+      "title": "Tem um projeto em mente?",
+      "subtitle": "Vamos falar. Orçamento gratuito em 24h.",
+      "button": "Pedir orçamento"
+    }
+  },
+  "product": {
+    "from": "Desde",
+    "addToCart": "Adicionar ao carrinho",
+    "buyNow": "Comprar agora",
+    "requestQuote": "Pedir orçamento",
+    "personalisation": "Personalização",
+    "personalisationPlaceholder": "Descreva a sua personalização (nome, data, mensagem…)",
+    "leadTime": "Prazo",
+    "stock": "Em stock",
+    "outOfStock": "Por encomenda",
+    "description": "Descrição",
+    "specifications": "Especificações",
+    "addedToCart": "Adicionado ao carrinho",
+    "viewCart": "Ver carrinho"
+  },
+  "products": {
+    "title": "Os nossos produtos",
+    "subtitle": "Todos os artigos personalizáveis",
+    "filterAll": "Todos",
+    "noResults": "Nenhum produto encontrado.",
+    "sortBy": "Ordenar por",
+    "sortNewest": "Mais recentes",
+    "sortPriceAsc": "Preço crescente",
+    "sortPriceDesc": "Preço decrescente"
+  },
+  "cart": {
+    "title": "O seu carrinho",
+    "empty": "O seu carrinho está vazio",
+    "emptyHint": "Adicione produtos para começar",
+    "continueShopping": "Continuar a comprar",
+    "subtotal": "Subtotal",
+    "shipping": "Envio",
+    "shippingFree": "Grátis",
+    "total": "Total",
+    "checkout": "Finalizar compra",
+    "whatsappCheckout": "Finalizar pelo WhatsApp",
+    "remove": "Remover",
+    "quantity": "Quantidade",
+    "items": "{count, plural, =0 {Sem artigos} =1 {1 artigo} other {# artigos}}"
+  },
+  "checkout": {
+    "title": "Finalização",
+    "contact": "Contacto",
+    "shipping": "Endereço de entrega",
+    "payment": "Pagamento",
+    "fields": {
+      "name": "Nome completo",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "address1": "Morada",
+      "address2": "Complemento (opcional)",
+      "city": "Cidade",
+      "postalCode": "Código postal",
+      "canton": "Cantão",
+      "country": "País",
+      "notes": "Notas (opcional)"
+    },
+    "methods": {
+      "card": "Cartão de crédito/débito",
+      "twint": "TWINT",
+      "twintHint": "Pagamento instantâneo via app TWINT",
+      "paypal": "PayPal",
+      "bank": "Transferência bancária",
+      "bankHint": "Receberá os dados bancários por e-mail"
+    },
+    "orderSummary": "Resumo da encomenda",
+    "placeOrder": "Confirmar e pagar",
+    "processing": "A processar…",
+    "secure": "Pagamento 100% seguro"
+  },
+  "success": {
+    "title": "Obrigado pela sua encomenda!",
+    "subtitle": "Foi enviado um e-mail de confirmação.",
+    "orderNumber": "Número da encomenda",
+    "next": "Pode acompanhar a encomenda na sua área de cliente ou contactar-nos diretamente.",
+    "back": "Voltar ao início"
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Uma questão? Um projeto? Escreva-nos.",
+    "form": {
+      "name": "Nome",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "subject": "Assunto",
+      "message": "Mensagem",
+      "submit": "Enviar",
+      "sending": "A enviar…",
+      "success": "Obrigado! Responderemos brevemente.",
+      "error": "Ocorreu um erro, tente novamente."
+    },
+    "info": {
+      "email": "E-mail",
+      "phone": "WhatsApp",
+      "address": "Endereço",
+      "hours": "Horário"
+    }
+  },
+  "quote": {
+    "title": "Pedido de orçamento",
+    "subtitle": "Conte-nos sobre o seu projeto, orçamento gratuito em 24h.",
+    "form": {
+      "name": "Nome completo",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "eventType": "Tipo de evento",
+      "description": "Descrição do projeto",
+      "desiredDate": "Data desejada",
+      "estimatedQty": "Quantidade estimada",
+      "budget": "Orçamento aproximado (CHF)",
+      "contactPref": "Preferência de contacto",
+      "byEmail": "E-mail",
+      "byWhatsapp": "WhatsApp",
+      "both": "Ambos",
+      "submit": "Enviar pedido",
+      "sending": "A enviar…",
+      "success": "Pedido enviado! Contactamos em 24h.",
+      "error": "Ocorreu um erro, tente novamente."
+    }
+  },
+  "about": {
+    "title": "Sobre nós",
+    "subtitle": "Kadoa Sourires & Souvenirs — Lausanne",
+    "story": {
+      "title": "A nossa história",
+      "body": "A Kadoa nasceu de uma paixão pelo detalhe e pelo objeto bem feito. Em Lausanne, combinamos impressão 3D, gravação laser, sublimação e impressão UV para dar vida às suas mais belas ocasiões. Cada peça é pensada para durar e fazer sorrir."
+    },
+    "values": {
+      "title": "Os nossos valores",
+      "items": {
+        "quality": { "title": "Qualidade artesanal", "desc": "Cada peça verificada à mão antes do envio." },
+        "custom": { "title": "100% personalizado", "desc": "As suas ideias ganham forma exatamente como as imagina." },
+        "local": { "title": "Local e responsável", "desc": "Produzido na Suíça, materiais escolhidos com cuidado." }
+      }
+    }
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "subtitle": "Tudo o que precisa de saber antes de encomendar",
+    "items": [
+      { "q": "Quais os prazos de produção?", "a": "Geralmente 5 a 7 dias úteis após validação do design. Encomendas urgentes possíveis, contacte-nos." },
+      { "q": "Entregam em toda a Suíça?", "a": "Sim, entregamos em toda a Suíça. Envio grátis acima de 150 CHF." },
+      { "q": "Que métodos de pagamento aceitam?", "a": "Cartão, TWINT, PayPal e transferência bancária." },
+      { "q": "Posso ver uma pré-visualização antes da produção?", "a": "Claro. Enviamos uma maquete digital para validação antes da impressão." },
+      { "q": "Existe quantidade mínima?", "a": "Não, aceitamos também encomendas unitárias ou em pequenas quantidades." },
+      { "q": "Posso fornecer o meu próprio design?", "a": "Sim! Envie-nos os ficheiros (PDF, AI, PNG alta resolução) com o pedido." }
+    ]
+  },
+  "footer": {
+    "tagline": "Personalização artesanal em Lausanne.",
+    "shop": "Loja",
+    "company": "Empresa",
+    "support": "Suporte",
+    "legal": "Legal",
+    "rights": "Todos os direitos reservados."
+  },
+  "admin": {
+    "login": {
+      "title": "Entrada de administrador",
+      "email": "E-mail",
+      "password": "Palavra-passe",
+      "submit": "Entrar",
+      "error": "Credenciais inválidas."
+    },
+    "nav": {
+      "dashboard": "Painel",
+      "products": "Produtos",
+      "orders": "Encomendas",
+      "quotes": "Orçamentos",
+      "settings": "Definições",
+      "logout": "Sair"
+    },
+    "dashboard": {
+      "title": "Painel",
+      "totalOrders": "Encomendas",
+      "totalRevenue": "Receita",
+      "pendingOrders": "Encomendas pendentes",
+      "newQuotes": "Novos orçamentos",
+      "recentOrders": "Encomendas recentes",
+      "topProducts": "Mais vendidos"
+    },
+    "products": {
+      "title": "Produtos",
+      "new": "Novo produto",
+      "search": "Pesquisar…",
+      "name": "Nome",
+      "category": "Categoria",
+      "price": "Preço",
+      "stock": "Stock",
+      "status": "Estado",
+      "actions": "Ações",
+      "active": "Ativo",
+      "inactive": "Inativo",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "confirmDelete": "Eliminar este produto?"
+    },
+    "orders": {
+      "title": "Encomendas",
+      "number": "Nº",
+      "date": "Data",
+      "customer": "Cliente",
+      "total": "Total",
+      "status": "Estado",
+      "payment": "Pagamento",
+      "view": "Ver"
+    },
+    "quotes": {
+      "title": "Pedidos de orçamento",
+      "from": "De",
+      "event": "Evento",
+      "date": "Recebido",
+      "status": "Estado",
+      "view": "Ver",
+      "markReplied": "Marcar respondido"
+    }
+  },
+  "common": {
+    "loading": "A carregar…",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "back": "Voltar",
+    "yes": "Sim",
+    "no": "Não",
+    "required": "Obrigatório"
+  }
+}

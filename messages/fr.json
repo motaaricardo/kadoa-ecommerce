@@ -1,0 +1,282 @@
+{
+  "site": {
+    "name": "Kadoa Sourires & Souvenirs",
+    "tagline": "Personnalisation, artisanat & souvenirs uniques",
+    "address": "Lausanne, Suisse"
+  },
+  "nav": {
+    "home": "Accueil",
+    "products": "Produits",
+    "categories": "Catégories",
+    "about": "À propos",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "quote": "Demander un devis",
+    "cart": "Panier",
+    "admin": "Admin"
+  },
+  "categories": {
+    "baby_shower": "Baby Shower",
+    "corporate": "Événements corporate",
+    "wedding": "Mariages",
+    "baptism": "Baptêmes",
+    "birthday": "Anniversaires"
+  },
+  "home": {
+    "hero": {
+      "title": "Des souvenirs qui font sourire",
+      "subtitle": "Impression 3D · Gravure laser · Sublimation · Impression UV. Personnalisation artisanale à Lausanne.",
+      "ctaPrimary": "Voir les produits",
+      "ctaSecondary": "Demander un devis"
+    },
+    "services": {
+      "title": "Nos savoir-faire",
+      "subtitle": "Quatre techniques pour donner vie à vos idées",
+      "items": {
+        "print3d": { "title": "Impression 3D", "desc": "Objets sur mesure modélisés et imprimés en 3D dans notre atelier." },
+        "laser": { "title": "Gravure laser", "desc": "Précision millimétrique sur bois, acrylique, métal et cuir." },
+        "sublimation": { "title": "Sublimation", "desc": "Impression couleur durable sur textiles et accessoires." },
+        "uv": { "title": "Impression UV", "desc": "Couleurs vives et résistantes sur quasiment toutes les surfaces." }
+      }
+    },
+    "categoriesSection": {
+      "title": "Pour chaque occasion",
+      "subtitle": "Trouvez le souvenir parfait selon votre événement"
+    },
+    "featured": {
+      "title": "Coup de cœur",
+      "subtitle": "Une sélection de nos produits les plus appréciés"
+    },
+    "cta": {
+      "title": "Un projet en tête ?",
+      "subtitle": "Parlons-en. Devis gratuit sous 24h.",
+      "button": "Demander un devis"
+    }
+  },
+  "product": {
+    "from": "Dès",
+    "addToCart": "Ajouter au panier",
+    "buyNow": "Acheter maintenant",
+    "requestQuote": "Demander un devis",
+    "personalisation": "Personnalisation",
+    "personalisationPlaceholder": "Décrivez votre personnalisation (prénom, date, message…)",
+    "leadTime": "Délai",
+    "stock": "En stock",
+    "outOfStock": "Sur commande",
+    "description": "Description",
+    "specifications": "Spécifications",
+    "addedToCart": "Ajouté au panier",
+    "viewCart": "Voir le panier"
+  },
+  "products": {
+    "title": "Nos produits",
+    "subtitle": "Tous nos articles personnalisables",
+    "filterAll": "Tous",
+    "noResults": "Aucun produit trouvé.",
+    "sortBy": "Trier par",
+    "sortNewest": "Plus récents",
+    "sortPriceAsc": "Prix croissant",
+    "sortPriceDesc": "Prix décroissant"
+  },
+  "cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide",
+    "emptyHint": "Ajoutez des produits pour commencer",
+    "continueShopping": "Continuer mes achats",
+    "subtotal": "Sous-total",
+    "shipping": "Livraison",
+    "shippingFree": "Offerte",
+    "total": "Total",
+    "checkout": "Commander",
+    "whatsappCheckout": "Finaliser via WhatsApp",
+    "remove": "Retirer",
+    "quantity": "Quantité",
+    "items": "{count, plural, =0 {Aucun article} =1 {1 article} other {# articles}}"
+  },
+  "checkout": {
+    "title": "Validation de la commande",
+    "contact": "Coordonnées",
+    "shipping": "Adresse de livraison",
+    "payment": "Paiement",
+    "fields": {
+      "name": "Nom complet",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "address1": "Adresse",
+      "address2": "Complément (optionnel)",
+      "city": "Ville",
+      "postalCode": "NPA",
+      "canton": "Canton",
+      "country": "Pays",
+      "notes": "Notes (optionnel)"
+    },
+    "methods": {
+      "card": "Carte bancaire",
+      "twint": "TWINT",
+      "twintHint": "Paiement instantané via l'app TWINT",
+      "paypal": "PayPal",
+      "bank": "Virement bancaire",
+      "bankHint": "Vous recevrez les coordonnées bancaires par e-mail"
+    },
+    "orderSummary": "Résumé de commande",
+    "placeOrder": "Confirmer et payer",
+    "processing": "Traitement…",
+    "secure": "Paiement 100% sécurisé"
+  },
+  "success": {
+    "title": "Merci pour votre commande !",
+    "subtitle": "Un e-mail de confirmation vous a été envoyé.",
+    "orderNumber": "Numéro de commande",
+    "next": "Vous pouvez suivre votre commande depuis votre espace client ou nous contacter directement.",
+    "back": "Retour à l'accueil"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Une question ? Un projet ? Écrivez-nous.",
+    "form": {
+      "name": "Nom",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "subject": "Sujet",
+      "message": "Message",
+      "submit": "Envoyer",
+      "sending": "Envoi…",
+      "success": "Merci ! Nous vous répondrons dans les meilleurs délais.",
+      "error": "Une erreur est survenue, veuillez réessayer."
+    },
+    "info": {
+      "email": "E-mail",
+      "phone": "WhatsApp",
+      "address": "Adresse",
+      "hours": "Horaires"
+    }
+  },
+  "quote": {
+    "title": "Demande de devis",
+    "subtitle": "Parlez-nous de votre projet, devis gratuit sous 24h.",
+    "form": {
+      "name": "Nom complet",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "eventType": "Type d'événement",
+      "description": "Description du projet",
+      "desiredDate": "Date souhaitée",
+      "estimatedQty": "Quantité estimée",
+      "budget": "Budget approximatif (CHF)",
+      "contactPref": "Préférence de contact",
+      "byEmail": "E-mail",
+      "byWhatsapp": "WhatsApp",
+      "both": "Les deux",
+      "submit": "Envoyer la demande",
+      "sending": "Envoi…",
+      "success": "Demande envoyée ! Nous vous recontactons sous 24h.",
+      "error": "Une erreur est survenue, veuillez réessayer."
+    }
+  },
+  "about": {
+    "title": "À propos",
+    "subtitle": "Kadoa Sourires & Souvenirs — Lausanne",
+    "story": {
+      "title": "Notre histoire",
+      "body": "Kadoa est né d'une passion pour le détail et l'objet bien fait. À Lausanne, nous combinons impression 3D, gravure laser, sublimation et impression UV pour donner vie à vos plus belles occasions. Chaque pièce est pensée pour durer et faire sourire."
+    },
+    "values": {
+      "title": "Nos valeurs",
+      "items": {
+        "quality": { "title": "Qualité artisanale", "desc": "Chaque pièce contrôlée à la main avant envoi." },
+        "custom": { "title": "100% personnalisé", "desc": "Vos idées prennent forme exactement comme vous les imaginez." },
+        "local": { "title": "Local & responsable", "desc": "Production en Suisse, matériaux choisis avec soin." }
+      }
+    }
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "subtitle": "Tout ce qu'il faut savoir avant de commander",
+    "items": [
+      { "q": "Quels sont les délais de production ?", "a": "Comptez en général 5 à 7 jours ouvrables après validation du design. Les commandes urgentes sont possibles, contactez-nous." },
+      { "q": "Livrez-vous dans toute la Suisse ?", "a": "Oui, nous livrons partout en Suisse. La livraison est offerte dès 150 CHF." },
+      { "q": "Quels moyens de paiement acceptez-vous ?", "a": "Carte bancaire, TWINT, PayPal et virement bancaire." },
+      { "q": "Puis-je voir un aperçu avant production ?", "a": "Bien sûr. Nous vous envoyons une maquette numérique pour validation avant impression." },
+      { "q": "Y a-t-il une quantité minimum ?", "a": "Non, nous acceptons aussi les commandes à l'unité ou en petites quantités." },
+      { "q": "Puis-je fournir mon propre design ?", "a": "Oui ! Envoyez-nous vos fichiers (PDF, AI, PNG haute résolution) lors de votre demande." }
+    ]
+  },
+  "footer": {
+    "tagline": "Personnalisation artisanale à Lausanne.",
+    "shop": "Boutique",
+    "company": "Entreprise",
+    "support": "Support",
+    "legal": "Mentions légales",
+    "rights": "Tous droits réservés."
+  },
+  "admin": {
+    "login": {
+      "title": "Connexion administrateur",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "error": "Identifiants invalides."
+    },
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "products": "Produits",
+      "orders": "Commandes",
+      "quotes": "Devis",
+      "settings": "Paramètres",
+      "logout": "Déconnexion"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "totalOrders": "Commandes",
+      "totalRevenue": "Chiffre d'affaires",
+      "pendingOrders": "Commandes en attente",
+      "newQuotes": "Nouveaux devis",
+      "recentOrders": "Commandes récentes",
+      "topProducts": "Meilleures ventes"
+    },
+    "products": {
+      "title": "Produits",
+      "new": "Nouveau produit",
+      "search": "Rechercher…",
+      "name": "Nom",
+      "category": "Catégorie",
+      "price": "Prix",
+      "stock": "Stock",
+      "status": "Statut",
+      "actions": "Actions",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "confirmDelete": "Supprimer ce produit ?"
+    },
+    "orders": {
+      "title": "Commandes",
+      "number": "N°",
+      "date": "Date",
+      "customer": "Client",
+      "total": "Total",
+      "status": "Statut",
+      "payment": "Paiement",
+      "view": "Voir"
+    },
+    "quotes": {
+      "title": "Demandes de devis",
+      "from": "De",
+      "event": "Événement",
+      "date": "Reçu",
+      "status": "Statut",
+      "view": "Voir",
+      "markReplied": "Marquer répondu"
+    }
+  },
+  "common": {
+    "loading": "Chargement…",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "back": "Retour",
+    "yes": "Oui",
+    "no": "Non",
+    "required": "Requis"
+  }
+}

@@ -1,0 +1,124 @@
+// Prisma schema for Kadoa e-commerce.
+// Default datasource is SQLite (zero-config dev). For production, switch
+// `provider` to "postgresql" and set DATABASE_URL to your Postgres URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  category        String   // baby_shower | corporate | wedding | baptism | birthday
+  // Multilingual fields stored as JSON strings (SQLite). Keys: fr, en, de, pt.
+  name            String   // JSON: { fr, en, de, pt }
+  shortDescription String  // JSON
+  longDescription String   // JSON
+  priceCents      Int      // CHF in cents
+  discountCents   Int?
+  stock           Int      @default(0)
+  leadTime        String   @default("5-7 jours ouvrables")
+  customizable    Boolean  @default(true)
+  active          Boolean  @default(true)
+  imageUrl        String?  // optional uploaded URL; if null we render an SVG placeholder
+  imageAlt        String?
+  featured        Boolean  @default(false)
+  views           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  orderItems      OrderItem[]
+
+  @@index([category])
+  @@index([active])
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  orderNumber     String   @unique
+  status          String   @default("pending") // pending | paid | processing | shipped | delivered | cancelled
+  paymentMethod   String   // stripe_card | stripe_twint | paypal | bank_transfer
+  paymentStatus   String   @default("pending") // pending | paid | failed | refunded
+  stripeSessionId String?  @unique
+  stripePaymentId String?
+
+  // Customer
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+
+  // Shipping
+  shippingAddress String   // JSON: { line1, line2, city, postalCode, canton, country }
+
+  // Money (CHF cents)
+  subtotalCents   Int
+  shippingCents   Int      @default(0)
+  totalCents      Int
+  currency        String   @default("CHF")
+
+  notes           String?
+  locale          String   @default("fr")
+
+  items           OrderItem[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([customerEmail])
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  productId   String
+  productName String  // snapshot in primary locale
+  quantity    Int
+  priceCents  Int     // unit price snapshot
+  customization String? // free-text customization request
+
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+}
+
+model QuoteRequest {
+  id              String   @id @default(cuid())
+  name            String
+  email           String
+  phone           String?
+  eventType       String
+  description     String
+  desiredDate     DateTime?
+  estimatedQty    Int?
+  budgetCents     Int?
+  attachments     String?  // JSON array of URLs
+  contactPref     String   @default("email") // email | whatsapp | both
+  status          String   @default("new")    // new | replied | closed
+  locale          String   @default("fr")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+}
+
+model ContactMessage {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  subject     String?
+  message     String
+  status      String   @default("new") // new | replied
+  createdAt   DateTime @default(now())
+}
+
+model Setting {
+  key   String @id
+  value String
+}

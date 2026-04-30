@@ -1,0 +1,282 @@
+{
+  "site": {
+    "name": "Kadoa Sourires & Souvenirs",
+    "tagline": "Personalisation, craft & unique keepsakes",
+    "address": "Lausanne, Switzerland"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "categories": "Categories",
+    "about": "About",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "quote": "Request quote",
+    "cart": "Cart",
+    "admin": "Admin"
+  },
+  "categories": {
+    "baby_shower": "Baby Shower",
+    "corporate": "Corporate Events",
+    "wedding": "Weddings",
+    "baptism": "Baptisms",
+    "birthday": "Birthdays"
+  },
+  "home": {
+    "hero": {
+      "title": "Keepsakes that bring smiles",
+      "subtitle": "3D printing · Laser engraving · Sublimation · UV printing. Crafted with care in Lausanne.",
+      "ctaPrimary": "Browse products",
+      "ctaSecondary": "Request a quote"
+    },
+    "services": {
+      "title": "Our craft",
+      "subtitle": "Four techniques to bring your ideas to life",
+      "items": {
+        "print3d": { "title": "3D printing", "desc": "Custom objects modelled and printed in our workshop." },
+        "laser": { "title": "Laser engraving", "desc": "Millimetre precision on wood, acrylic, metal and leather." },
+        "sublimation": { "title": "Sublimation", "desc": "Long-lasting colour print on textiles and accessories." },
+        "uv": { "title": "UV printing", "desc": "Vivid, durable colours on almost any surface." }
+      }
+    },
+    "categoriesSection": {
+      "title": "For every occasion",
+      "subtitle": "Find the perfect keepsake for your event"
+    },
+    "featured": {
+      "title": "Customer favourites",
+      "subtitle": "A selection of our most-loved products"
+    },
+    "cta": {
+      "title": "Got a project in mind?",
+      "subtitle": "Let's talk. Free quote within 24h.",
+      "button": "Request a quote"
+    }
+  },
+  "product": {
+    "from": "From",
+    "addToCart": "Add to cart",
+    "buyNow": "Buy now",
+    "requestQuote": "Request a quote",
+    "personalisation": "Personalisation",
+    "personalisationPlaceholder": "Describe your customisation (name, date, message…)",
+    "leadTime": "Lead time",
+    "stock": "In stock",
+    "outOfStock": "Made to order",
+    "description": "Description",
+    "specifications": "Specifications",
+    "addedToCart": "Added to cart",
+    "viewCart": "View cart"
+  },
+  "products": {
+    "title": "Our products",
+    "subtitle": "All our customisable items",
+    "filterAll": "All",
+    "noResults": "No products found.",
+    "sortBy": "Sort by",
+    "sortNewest": "Newest",
+    "sortPriceAsc": "Price: low to high",
+    "sortPriceDesc": "Price: high to low"
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty",
+    "emptyHint": "Add products to get started",
+    "continueShopping": "Continue shopping",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "shippingFree": "Free",
+    "total": "Total",
+    "checkout": "Checkout",
+    "whatsappCheckout": "Checkout via WhatsApp",
+    "remove": "Remove",
+    "quantity": "Quantity",
+    "items": "{count, plural, =0 {No items} =1 {1 item} other {# items}}"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "contact": "Contact",
+    "shipping": "Shipping address",
+    "payment": "Payment",
+    "fields": {
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "address1": "Address",
+      "address2": "Apartment, suite (optional)",
+      "city": "City",
+      "postalCode": "Postal code",
+      "canton": "Canton",
+      "country": "Country",
+      "notes": "Notes (optional)"
+    },
+    "methods": {
+      "card": "Credit / debit card",
+      "twint": "TWINT",
+      "twintHint": "Instant payment via TWINT app",
+      "paypal": "PayPal",
+      "bank": "Bank transfer",
+      "bankHint": "Bank details will be emailed to you"
+    },
+    "orderSummary": "Order summary",
+    "placeOrder": "Confirm and pay",
+    "processing": "Processing…",
+    "secure": "100% secure payment"
+  },
+  "success": {
+    "title": "Thank you for your order!",
+    "subtitle": "A confirmation email has been sent to you.",
+    "orderNumber": "Order number",
+    "next": "You can track your order from your account or contact us directly.",
+    "back": "Back to home"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "A question? A project? Drop us a line.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send",
+      "sending": "Sending…",
+      "success": "Thank you! We'll get back to you shortly.",
+      "error": "Something went wrong, please try again."
+    },
+    "info": {
+      "email": "Email",
+      "phone": "WhatsApp",
+      "address": "Address",
+      "hours": "Opening hours"
+    }
+  },
+  "quote": {
+    "title": "Quote request",
+    "subtitle": "Tell us about your project, free quote within 24h.",
+    "form": {
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "eventType": "Event type",
+      "description": "Project description",
+      "desiredDate": "Desired date",
+      "estimatedQty": "Estimated quantity",
+      "budget": "Approximate budget (CHF)",
+      "contactPref": "Preferred contact",
+      "byEmail": "Email",
+      "byWhatsapp": "WhatsApp",
+      "both": "Both",
+      "submit": "Send request",
+      "sending": "Sending…",
+      "success": "Request sent! We'll contact you within 24h.",
+      "error": "Something went wrong, please try again."
+    }
+  },
+  "about": {
+    "title": "About",
+    "subtitle": "Kadoa Sourires & Souvenirs — Lausanne",
+    "story": {
+      "title": "Our story",
+      "body": "Kadoa was born from a passion for detail and well-crafted objects. In Lausanne, we combine 3D printing, laser engraving, sublimation and UV printing to bring your most beautiful occasions to life. Every piece is designed to last and to bring smiles."
+    },
+    "values": {
+      "title": "Our values",
+      "items": {
+        "quality": { "title": "Crafted quality", "desc": "Every piece hand-checked before shipping." },
+        "custom": { "title": "100% personalised", "desc": "Your ideas take shape exactly as you imagine them." },
+        "local": { "title": "Local & responsible", "desc": "Made in Switzerland, materials chosen with care." }
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "Everything you need to know before ordering",
+    "items": [
+      { "q": "What are the production lead times?", "a": "Generally 5 to 7 business days after design approval. Rush orders possible, contact us." },
+      { "q": "Do you ship throughout Switzerland?", "a": "Yes, we ship throughout Switzerland. Free shipping on orders over 150 CHF." },
+      { "q": "What payment methods do you accept?", "a": "Credit/debit card, TWINT, PayPal and bank transfer." },
+      { "q": "Can I see a preview before production?", "a": "Of course. We send a digital mockup for approval before printing." },
+      { "q": "Is there a minimum order?", "a": "No, we accept single-piece and small-batch orders." },
+      { "q": "Can I provide my own design?", "a": "Yes! Send us your files (PDF, AI, high-resolution PNG) with your request." }
+    ]
+  },
+  "footer": {
+    "tagline": "Crafted personalisation in Lausanne.",
+    "shop": "Shop",
+    "company": "Company",
+    "support": "Support",
+    "legal": "Legal",
+    "rights": "All rights reserved."
+  },
+  "admin": {
+    "login": {
+      "title": "Admin login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "error": "Invalid credentials."
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "products": "Products",
+      "orders": "Orders",
+      "quotes": "Quotes",
+      "settings": "Settings",
+      "logout": "Sign out"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "totalOrders": "Orders",
+      "totalRevenue": "Revenue",
+      "pendingOrders": "Pending orders",
+      "newQuotes": "New quotes",
+      "recentOrders": "Recent orders",
+      "topProducts": "Top sellers"
+    },
+    "products": {
+      "title": "Products",
+      "new": "New product",
+      "search": "Search…",
+      "name": "Name",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "status": "Status",
+      "actions": "Actions",
+      "active": "Active",
+      "inactive": "Inactive",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirmDelete": "Delete this product?"
+    },
+    "orders": {
+      "title": "Orders",
+      "number": "#",
+      "date": "Date",
+      "customer": "Customer",
+      "total": "Total",
+      "status": "Status",
+      "payment": "Payment",
+      "view": "View"
+    },
+    "quotes": {
+      "title": "Quote requests",
+      "from": "From",
+      "event": "Event",
+      "date": "Received",
+      "status": "Status",
+      "view": "View",
+      "markReplied": "Mark replied"
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No",
+    "required": "Required"
+  }
+}
