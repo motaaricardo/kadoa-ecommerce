@@ -29,7 +29,7 @@ export function Footer() {
                   )
                 )}
               </span>
-              <span className="text-[11px] text-ink-soft">Sourires & Souvenirs</span>
+              <span className="font-display text-[11px] text-ink-soft">Sourires & Souvenirs</span>
             </div>
           </div>
           <p className="mt-3 text-sm text-ink-soft">{t('tagline')}</p>
