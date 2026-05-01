@@ -32,7 +32,17 @@ export function Header() {
             K
           </span>
           <span className="hidden flex-col leading-tight md:flex">
-            <span className="font-display text-base font-semibold text-ink">{tSite('name')}</span>
+            <span className="font-cormorant text-base font-semibold text-white">
+              {tSite('name').split('').map((char, idx) =>
+                char.toLowerCase() === 'o' ? (
+                  <span key={idx} className="text-baby-500">
+                    {char}
+                  </span>
+                ) : (
+                  <span key={idx}>{char}</span>
+                )
+              )}
+            </span>
             <span className="text-[10px] uppercase tracking-widest text-ink-mute">{tSite('address')}</span>
           </span>
         </Link>
