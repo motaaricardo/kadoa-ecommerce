@@ -57,4 +57,9 @@ export function placeholderSvg(name: string, category: Category, w = 800, h = 80
 
 export function placeholderDataUrl(name: string, category: Category): string {
   const svg = placeholderSvg(name, category);
-  // Use UTF-8-safe base64 encoding so 
+  // Use UTF-8-safe base64 encoding so emojis don't break.
+  const b64 = typeof window === 'undefined'
+    ? Buffer.from(svg, 'utf8').toString('base64')
+    : btoa(unescape(encodeURIComponent(svg)));
+  return `data:image/svg+xml;base64,${b64}`;
+}
