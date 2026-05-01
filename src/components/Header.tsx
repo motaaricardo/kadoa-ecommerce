@@ -32,8 +32,8 @@ export function Header() {
             K
           </span>
           <span className="hidden flex-col leading-tight md:flex">
-            <span className="font-cormorant text-base font-semibold text-ink">
-              {tSite('name').split('').map((char, idx) =>
+            <span className="font-cormorant text-lg font-bold text-ink">
+              {'Kadoa'.split('').map((char, idx) =>
                 char.toLowerCase() === 'o' ? (
                   <span key={idx} className="text-accent-500">
                     {char}
@@ -43,7 +43,7 @@ export function Header() {
                 )
               )}
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-ink-mute">{tSite('address')}</span>
+            <span className="text-[9px] leading-tight text-ink-mute">Sourires & Souvenirs</span>
           </span>
         </Link>
 
