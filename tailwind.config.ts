@@ -34,6 +34,7 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['var(--font-display)', 'ui-serif', 'Georgia', 'serif'],
+        cormorant: ['var(--font-cormorant)', 'ui-serif', 'Georgia', 'serif'],
       },
       boxShadow: {
         soft: '0 8px 24px -8px rgba(232, 116, 172, 0.18)',

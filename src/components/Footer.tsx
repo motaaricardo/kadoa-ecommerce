@@ -17,7 +17,20 @@ export function Footer() {
             <span className="grid h-9 w-9 place-items-center rounded-full bg-accent-300 font-display text-lg font-bold text-white">
               K
             </span>
-            <span className="font-display text-base font-semibold text-ink">{tSite('name')}</span>
+            <div className="flex flex-col leading-tight">
+              <span className="font-cormorant text-base font-semibold text-ink">
+                {'Kadoa'.split('').map((char, idx) =>
+                  char.toLowerCase() === 'o' ? (
+                    <span key={idx} className="text-accent-500">
+                      {char}
+                    </span>
+                  ) : (
+                    <span key={idx}>{char}</span>
+                  )
+                )}
+              </span>
+              <span className="text-[11px] text-ink-soft">Sourires & Souvenirs</span>
+            </div>
           </div>
           <p className="mt-3 text-sm text-ink-soft">{t('tagline')}</p>
           <div className="mt-4 flex gap-2">
