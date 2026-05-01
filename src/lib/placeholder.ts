@@ -10,6 +10,9 @@ const PALETTES: Record<Category, [string, string, string]> = {
   wedding:     ['#FFE4F0', '#F894C3', '#FFFBF7'],
   baptism:     ['#FFF0F6', '#FFC0E3', '#FFFFFF'],
   birthday:    ['#FFE9CC', '#FFB6D9', '#FFFBF7'],
+  travel_souvenirs: ['#E0F7FF', '#87CEEB', '#FFFFFF'],
+  kadoa_products: ['#FFF8DC', '#FFD700', '#FFFBF7'],
+  customizable_products: ['#F0E6FF', '#D8BFD8', '#FFFBF7'],
 };
 
 const ICONS: Record<Category, string> = {
@@ -18,6 +21,9 @@ const ICONS: Record<Category, string> = {
   wedding:     '💍',
   baptism:     '🕊️',
   birthday:    '🎂',
+  travel_souvenirs: '✈️',
+  kadoa_products: '🎁',
+  customizable_products: '🎨',
 };
 
 function escapeXml(s: string): string {
@@ -50,10 +56,4 @@ export function placeholderSvg(name: string, category: Category, w = 800, h = 80
 }
 
 export function placeholderDataUrl(name: string, category: Category): string {
-  const svg = placeholderSvg(name, category);
-  // Use UTF-8-safe base64 encoding so emojis don't break.
-  const b64 = typeof window === 'undefined'
-    ? Buffer.from(svg, 'utf8').toString('base64')
-    : btoa(unescape(encodeURIComponent(svg)));
-  return `data:image/svg+xml;base64,${b64}`;
-}
+  const svg = placeholderSvg(name, c
