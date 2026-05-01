@@ -6,6 +6,15 @@ const config: Config = {
     extend: {
       colors: {
         baby: {
+          50: '#F5EBE8',
+          100: '#E8D5CC',
+          200: '#DBC0B4',
+          300: '#CEAB9C',
+          400: '#C19684',
+          500: '#B4816C',
+          600: '#8B6454',
+        },
+        accent: {
           50: '#FFF0F6',
           100: '#FFD9E8',
           200: '#FFC0E3',
@@ -15,11 +24,12 @@ const config: Config = {
           600: '#C85A8E',
         },
         ink: {
-          DEFAULT: '#2C2C2C',
-          soft: '#5C5C5C',
-          mute: '#8A8A8A',
+          DEFAULT: '#3A3A3A',
+          soft: '#6B6B6B',
+          mute: '#A0A0A0',
         },
         cream: '#FFFBF7',
+        sage: '#D4E5DC',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],

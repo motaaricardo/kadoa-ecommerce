@@ -125,16 +125,16 @@ export default function CheckoutPage() {
             <h2 className="font-display text-xl font-semibold text-ink">{t('payment')}</h2>
             <div className="mt-5 grid gap-3">
               {methods.map(({ value, icon: Icon, label, hint }) => (
-                <label key={value} className={`flex cursor-pointer items-start gap-4 rounded-2xl border p-4 transition ${method === value ? 'border-baby-400 bg-baby-50' : 'border-baby-100 hover:border-baby-200'}`}>
+                <label key={value} className={`flex cursor-pointer items-start gap-4 rounded-2xl border p-4 transition ${method === value ? 'border-accent-400 bg-baby-50' : 'border-baby-100 hover:border-baby-200'}`}>
                   <input type="radio" name="method" className="sr-only" checked={method === value} onChange={() => setMethod(value)} />
-                  <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${method === value ? 'bg-baby-300 text-ink' : 'bg-baby-50 text-ink-soft'}`}>
+                  <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${method === value ? 'bg-accent-300 text-ink' : 'bg-baby-50 text-ink-soft'}`}>
                     <Icon className="h-5 w-5" />
                   </div>
                   <div className="flex-1">
                     <div className="font-medium text-ink">{label}</div>
                     {hint && <div className="text-sm text-ink-soft">{hint}</div>}
                   </div>
-                  <span className={`mt-1 grid h-5 w-5 place-items-center rounded-full border ${method === value ? 'border-baby-400 bg-baby-400' : 'border-baby-200 bg-white'}`}>
+                  <span className={`mt-1 grid h-5 w-5 place-items-center rounded-full border ${method === value ? 'border-accent-400 bg-accent-400' : 'border-baby-200 bg-white'}`}>
                     {method === value && <span className="h-2 w-2 rounded-full bg-white" />}
                   </span>
                 </label>

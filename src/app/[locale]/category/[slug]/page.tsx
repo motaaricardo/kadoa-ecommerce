@@ -20,7 +20,7 @@ export default async function CategoryPage({
   return (
     <section className="section">
       <header className="mb-10 max-w-2xl">
-        <span className="text-xs font-semibold uppercase tracking-widest text-baby-500">
+        <span className="text-xs font-semibold uppercase tracking-widest text-accent-500">
           {tProducts('title')}
         </span>
         <h1 className="mt-2 font-display text-4xl font-bold text-ink md:text-5xl">{t(slug as Category)}</h1>

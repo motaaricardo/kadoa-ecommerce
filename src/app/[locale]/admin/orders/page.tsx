@@ -47,7 +47,7 @@ export default async function AdminOrders({ params }: { params: Promise<{ locale
                   <span className="rounded-full bg-baby-50 px-2.5 py-1 text-xs font-medium">{o.status}</span>
                 </td>
                 <td className="py-2.5 text-right">
-                  <Link href={`/admin/orders/${o.id}` as any} className="text-xs font-semibold text-baby-500 hover:text-baby-600">→</Link>
+                  <Link href={`/admin/orders/${o.id}` as any} className="text-xs font-semibold text-accent-500 hover:text-accent-600">→</Link>
                 </td>
               </tr>
             ))}

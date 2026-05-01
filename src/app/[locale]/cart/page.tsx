@@ -38,7 +38,7 @@ export default function CartPage() {
             {items.map((i) => (
               <li key={i.productId} className="card flex flex-col gap-4 sm:flex-row sm:items-center">
                 <div className="flex-1">
-                  <Link href={`/products/${i.slug}`} className="font-display text-lg text-ink hover:text-baby-500">
+                  <Link href={`/products/${i.slug}`} className="font-display text-lg text-ink hover:text-accent-500">
                     {i.name}
                   </Link>
                   <p className="text-sm text-ink-mute">{formatPrice(i.priceCents, locale)}</p>
@@ -59,7 +59,7 @@ export default function CartPage() {
                   <span className="font-display text-lg font-semibold text-ink">
                     {formatPrice(i.priceCents * i.quantity, locale)}
                   </span>
-                  <button onClick={() => remove(i.productId)} className="text-ink-mute hover:text-baby-500" aria-label={t('remove')}>
+                  <button onClick={() => remove(i.productId)} className="text-ink-mute hover:text-accent-500" aria-label={t('remove')}>
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>

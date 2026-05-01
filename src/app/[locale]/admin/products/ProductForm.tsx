@@ -115,7 +115,7 @@ export function ProductForm({ initial }: { initial?: Initial }) {
               key={l}
               type="button"
               onClick={() => setTab(l)}
-              className={`-mb-px border-b-2 px-3 py-2 text-sm font-semibold ${tab === l ? 'border-baby-400 text-baby-500' : 'border-transparent text-ink-mute hover:text-ink-soft'}`}
+              className={`-mb-px border-b-2 px-3 py-2 text-sm font-semibold ${tab === l ? 'border-accent-400 text-accent-500' : 'border-transparent text-ink-mute hover:text-ink-soft'}`}
             >
               {l.toUpperCase()}
             </button>

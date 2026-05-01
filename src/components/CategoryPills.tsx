@@ -17,7 +17,7 @@ export function CategoryPills({ active }: { active?: string }) {
         href="/products"
         className={cn(
           'rounded-full border px-4 py-2 text-sm font-medium transition',
-          isAll ? 'border-baby-400 bg-baby-300 text-ink' : 'border-baby-100 bg-white text-ink-soft hover:border-baby-200',
+          isAll ? 'border-accent-400 bg-accent-300 text-ink' : 'border-baby-100 bg-white text-ink-soft hover:border-baby-200',
         )}
       >
         {tProducts('filterAll')}
@@ -29,7 +29,7 @@ export function CategoryPills({ active }: { active?: string }) {
           className={cn(
             'rounded-full border px-4 py-2 text-sm font-medium transition',
             active === c
-              ? 'border-baby-400 bg-baby-300 text-ink'
+              ? 'border-accent-400 bg-accent-300 text-ink'
               : 'border-baby-100 bg-white text-ink-soft hover:border-baby-200',
           )}
         >

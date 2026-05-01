@@ -86,7 +86,7 @@ export default function QuotePage() {
           <label className="label">{t('form.contactPref')}</label>
           <div className="flex gap-2">
             {(['email', 'whatsapp', 'both'] as const).map((p) => (
-              <label key={p} className={`flex-1 cursor-pointer rounded-2xl border px-4 py-3 text-center text-sm font-medium transition ${form.contactPref === p ? 'border-baby-400 bg-baby-50 text-ink' : 'border-baby-100 text-ink-soft hover:border-baby-200'}`}>
+              <label key={p} className={`flex-1 cursor-pointer rounded-2xl border px-4 py-3 text-center text-sm font-medium transition ${form.contactPref === p ? 'border-accent-400 bg-baby-50 text-ink' : 'border-baby-100 text-ink-soft hover:border-baby-200'}`}>
                 <input type="radio" name="cp" className="sr-only" checked={form.contactPref === p} onChange={() => setForm((f) => ({ ...f, contactPref: p }))} />
                 {p === 'email' ? t('form.byEmail') : p === 'whatsapp' ? t('form.byWhatsapp') : t('form.both')}
               </label>

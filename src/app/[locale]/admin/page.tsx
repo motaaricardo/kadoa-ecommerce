@@ -37,7 +37,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map(({ label, value, icon: Icon }) => (
           <div key={label} className="card flex items-center gap-4">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-baby-100 text-baby-500">
+            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-baby-100 text-accent-500">
               <Icon className="h-5 w-5" />
             </div>
             <div>

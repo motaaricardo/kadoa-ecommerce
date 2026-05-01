@@ -7,7 +7,7 @@ export function LogoutButton({ label }: { label: string }) {
     <button
       type="button"
       onClick={() => signOut({ callbackUrl: '/admin/login' })}
-      className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-ink-soft hover:bg-baby-50 hover:text-baby-500"
+      className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-ink-soft hover:bg-baby-50 hover:text-accent-500"
     >
       <LogOut className="h-4 w-4" />
       {label}

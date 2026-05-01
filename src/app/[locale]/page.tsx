@@ -34,7 +34,7 @@ function HomeUI({ locale, featured }: { locale: Locale; featured: Awaited<Return
         <div className="absolute -bottom-20 -left-10 h-80 w-80 rounded-full bg-baby-100 blur-3xl opacity-70" aria-hidden />
         <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-20 md:grid-cols-2 md:items-center md:px-6 md:py-28">
           <div className="animate-slide-up">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-baby-500 shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent-500 shadow-sm">
               <Sparkles className="h-3 w-3" /> Lausanne · Suisse
             </span>
             <h1 className="mt-5 font-display text-5xl font-bold leading-[1.05] text-ink md:text-6xl">
@@ -76,7 +76,7 @@ function HomeUI({ locale, featured }: { locale: Locale; featured: Awaited<Return
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {services.map(({ key, icon: Icon }) => (
             <div key={key} className="card transition hover:shadow-glow">
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-baby-100 text-baby-500">
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-baby-100 text-accent-500">
                 <Icon className="h-5 w-5" />
               </div>
               <h3 className="mt-5 font-display text-xl font-semibold text-ink">
@@ -122,7 +122,7 @@ function HomeUI({ locale, featured }: { locale: Locale; featured: Awaited<Return
               <h2 className="font-display text-3xl font-bold text-ink md:text-4xl">{t('featured.title')}</h2>
               <p className="mt-2 text-ink-soft">{t('featured.subtitle')}</p>
             </div>
-            <Link href="/products" className="text-sm font-semibold text-baby-500 hover:text-baby-600">
+            <Link href="/products" className="text-sm font-semibold text-accent-500 hover:text-accent-600">
               {tNav('products')} →
             </Link>
           </div>
@@ -136,7 +136,7 @@ function HomeUI({ locale, featured }: { locale: Locale; featured: Awaited<Return
 
       {/* CTA */}
       <section className="section">
-        <div className="relative overflow-hidden rounded-4xl bg-gradient-to-br from-baby-300 via-baby-200 to-baby-100 px-8 py-14 text-center md:py-20">
+        <div className="relative overflow-hidden rounded-4xl bg-gradient-to-br from-accent-300 via-baby-200 to-baby-100 px-8 py-14 text-center md:py-20">
           <div className="absolute -top-10 -right-10 h-48 w-48 rounded-full bg-white/40 blur-3xl" aria-hidden />
           <h2 className="font-display text-3xl font-bold text-ink md:text-4xl">{t('cta.title')}</h2>
           <p className="mx-auto mt-3 max-w-xl text-ink-soft">{t('cta.subtitle')}</p>

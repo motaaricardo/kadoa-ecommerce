@@ -40,7 +40,7 @@ export function QuoteRow({ quote }: Props) {
           <div className="font-medium text-ink">{quote.name} · <span className="text-ink-soft">{quote.email}</span></div>
           <div className="truncate text-sm text-ink-mute">{quote.eventType} · {quote.dateLabel}</div>
         </div>
-        <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${quote.status === 'new' ? 'bg-baby-300 text-ink' : 'bg-emerald-50 text-emerald-700'}`}>
+        <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${quote.status === 'new' ? 'bg-accent-300 text-ink' : 'bg-emerald-50 text-emerald-700'}`}>
           {quote.status}
         </span>
         <ChevronDown className={cn('h-4 w-4 text-ink-mute transition-transform', open && 'rotate-180')} />

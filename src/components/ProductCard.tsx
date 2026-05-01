@@ -26,17 +26,17 @@ export function ProductCard({ product, locale }: { product: ProductView; locale:
           rounded=""
         />
         {product.featured && (
-          <span className="absolute left-3 top-3 rounded-full bg-baby-300 px-3 py-1 text-xs font-semibold text-ink shadow-sm">
+          <span className="absolute left-3 top-3 rounded-full bg-accent-300 px-3 py-1 text-xs font-semibold text-ink shadow-sm">
             ★
           </span>
         )}
       </Link>
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <span className="text-xs font-medium uppercase tracking-wider text-baby-500">
+        <span className="text-xs font-medium uppercase tracking-wider text-accent-500">
           {tCat(product.category)}
         </span>
         <Link href={`/products/${product.slug}`}>
-          <h3 className="font-display text-lg leading-tight text-ink hover:text-baby-500">
+          <h3 className="font-display text-lg leading-tight text-ink hover:text-accent-500">
             {product.name}
           </h3>
         </Link>
@@ -61,7 +61,7 @@ export function ProductCard({ product, locale }: { product: ProductView; locale:
               open();
             }}
             aria-label={t('addToCart')}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-baby-300 text-ink transition hover:bg-baby-400 hover:text-white"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent-300 text-ink transition hover:bg-accent-400 hover:text-white"
           >
             <ShoppingBag className="h-4 w-4" />
           </button>

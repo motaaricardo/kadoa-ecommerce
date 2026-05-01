@@ -56,7 +56,7 @@ export function CartDrawer() {
             <div className="flex h-full flex-col items-center justify-center text-center">
               <div className="font-display text-lg text-ink">{t('empty')}</div>
               <p className="mt-1 text-sm text-ink-soft">{t('emptyHint')}</p>
-              <Link href="/products" onClick={close} className="mt-6 rounded-full bg-baby-300 px-5 py-2.5 text-sm font-semibold text-ink hover:bg-baby-400 hover:text-white">
+              <Link href="/products" onClick={close} className="mt-6 rounded-full bg-accent-300 px-5 py-2.5 text-sm font-semibold text-ink hover:bg-accent-400 hover:text-white">
                 {t('continueShopping')}
               </Link>
             </div>
@@ -78,7 +78,7 @@ export function CartDrawer() {
                         <Plus className="h-3 w-3" />
                       </button>
                     </div>
-                    <button onClick={() => remove(i.productId)} className="text-xs text-ink-mute hover:text-baby-500" aria-label={t('remove')}>
+                    <button onClick={() => remove(i.productId)} className="text-xs text-ink-mute hover:text-accent-500" aria-label={t('remove')}>
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </div>
@@ -97,7 +97,7 @@ export function CartDrawer() {
             <Link
               href="/checkout"
               onClick={close}
-              className="block w-full rounded-full bg-baby-400 px-6 py-3 text-center text-sm font-semibold text-white shadow-soft transition hover:bg-baby-500"
+              className="block w-full rounded-full bg-accent-400 px-6 py-3 text-center text-sm font-semibold text-white shadow-soft transition hover:bg-accent-500"
             >
               {t('checkout')}
             </Link>

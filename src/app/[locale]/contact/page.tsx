@@ -62,7 +62,7 @@ export default function ContactPage() {
 
         <aside className="space-y-3">
           <a href={`mailto:${siteConfig.email}`} className="card flex items-start gap-3 transition hover:shadow-glow">
-            <Mail className="mt-1 h-5 w-5 text-baby-500" />
+            <Mail className="mt-1 h-5 w-5 text-accent-500" />
             <div>
               <div className="text-xs font-semibold uppercase tracking-wider text-ink-mute">{t('info.email')}</div>
               <div className="font-medium text-ink">{siteConfig.email}</div>
@@ -76,14 +76,14 @@ export default function ContactPage() {
             </div>
           </a>
           <div className="card flex items-start gap-3">
-            <MapPin className="mt-1 h-5 w-5 text-baby-500" />
+            <MapPin className="mt-1 h-5 w-5 text-accent-500" />
             <div>
               <div className="text-xs font-semibold uppercase tracking-wider text-ink-mute">{t('info.address')}</div>
               <div className="font-medium text-ink">{siteConfig.city}, {siteConfig.country}</div>
             </div>
           </div>
           <div className="card flex items-start gap-3">
-            <Clock className="mt-1 h-5 w-5 text-baby-500" />
+            <Clock className="mt-1 h-5 w-5 text-accent-500" />
             <div>
               <div className="text-xs font-semibold uppercase tracking-wider text-ink-mute">{t('info.hours')}</div>
               <div className="font-medium text-ink">Lun-Ven 9h-18h<br />Sam 10h-15h</div>

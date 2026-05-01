@@ -33,9 +33,9 @@ export default async function ProductPage({
   return (
     <article className="section">
       <nav className="mb-6 text-xs text-ink-mute">
-        <Link href="/" className="hover:text-baby-500">Kadoa</Link>
+        <Link href="/" className="hover:text-accent-500">Kadoa</Link>
         {' / '}
-        <Link href={`/category/${product.category}`} className="hover:text-baby-500">
+        <Link href={`/category/${product.category}`} className="hover:text-accent-500">
           {tCat(product.category)}
         </Link>
       </nav>
@@ -52,7 +52,7 @@ export default async function ProductPage({
         </div>
 
         <div>
-          <span className="text-xs font-semibold uppercase tracking-widest text-baby-500">
+          <span className="text-xs font-semibold uppercase tracking-widest text-accent-500">
             {tCat(product.category)}
           </span>
           <h1 className="mt-2 font-display text-4xl font-bold leading-tight text-ink md:text-5xl">
@@ -73,7 +73,7 @@ export default async function ProductPage({
 
           <div className="mt-6 flex flex-wrap gap-3 text-sm text-ink-soft">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-baby-50 px-3 py-1.5">
-              <Clock className="h-4 w-4 text-baby-500" />
+              <Clock className="h-4 w-4 text-accent-500" />
               {t('leadTime')}: {product.leadTime}
             </span>
             <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 ${inStock ? 'bg-emerald-50 text-emerald-700' : 'bg-baby-50 text-ink-soft'}`}>

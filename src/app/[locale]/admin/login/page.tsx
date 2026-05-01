@@ -32,7 +32,7 @@ export default function AdminLoginPage() {
     <section className="section">
       <div className="mx-auto max-w-md card">
         <div className="mb-6 flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-2xl bg-baby-100 text-baby-500">
+          <div className="grid h-10 w-10 place-items-center rounded-2xl bg-baby-100 text-accent-500">
             <Lock className="h-5 w-5" />
           </div>
           <h1 className="font-display text-2xl font-bold text-ink">{t('title')}</h1>

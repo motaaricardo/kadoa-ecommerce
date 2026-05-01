@@ -50,7 +50,7 @@ export function LanguageSwitcher() {
                 setOpen(false);
               }}
               className={`flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-baby-50 ${
-                loc === locale ? 'font-semibold text-baby-500' : 'text-ink-soft'
+                loc === locale ? 'font-semibold text-accent-500' : 'text-ink-soft'
               }`}
             >
               <span className="font-mono text-xs">{LABELS[loc]}</span>
