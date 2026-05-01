@@ -31,8 +31,8 @@ export function Header() {
           <span className="grid h-9 w-9 place-items-center rounded-full bg-accent-400 font-display text-lg font-bold text-white shadow-soft">
             K
           </span>
-          <span className="hidden flex-col leading-tight md:flex">
-            <span className="font-cormorant text-lg font-bold text-ink">
+          <span className="flex flex-col leading-tight">
+            <span className="font-cormorant text-base md:text-lg font-bold text-ink">
               {'Kadoa'.split('').map((char, idx) =>
                 char.toLowerCase() === 'o' ? (
                   <span key={idx} className="text-accent-500">
@@ -43,7 +43,7 @@ export function Header() {
                 )
               )}
             </span>
-            <span className="text-[9px] leading-tight text-ink-mute">Sourires & Souvenirs</span>
+            <span className="text-[8px] md:text-[9px] leading-tight text-ink-mute">Sourires & Souvenirs</span>
           </span>
         </Link>
 
