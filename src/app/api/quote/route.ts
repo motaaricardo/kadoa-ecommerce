@@ -19,8 +19,32 @@ const Body = z.object({
 
 export async function POST(req: Request) {
   let payload;
-  try { payload = Body.parse(await req.json()); }
-  catch { return NextResponse.json({ error: 'invalid_input' }, { status: 400 }); }
+  let files: { name: string; data: string; type: string }[] = [];
+
+  try {
+    const contentType = req.headers.get('content-type');
+    if (contentType?.includes('multipart/form-data')) {
+      const formData = await req.formData();
+      const dataStr = formData.get('data') as string;
+      payload = Body.parse(JSON.parse(dataStr));
+
+      // Process files
+      const fileEntries = formData.getAll('files') as File[];
+      for (const file of fileEntries) {
+        const buffer = await file.arrayBuffer();
+        const base64 = Buffer.from(buffer).toString('base64');
+        files.push({
+          name: file.name,
+          data: base64,
+          type: file.type,
+        });
+      }
+    } else {
+      payload = Body.parse(await req.json());
+    }
+  } catch {
+    return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
+  }
 
   const quote = await prisma.quoteRequest.create({
     data: {
@@ -38,6 +62,16 @@ export async function POST(req: Request) {
   });
 
   // Notify the merchant
+  const photosHtml = files.length > 0
+    ? `
+      <hr />
+      <h3>Photos jointes (${files.length})</h3>
+      <div>
+        ${files.map((f) => `<p><img src="data:${f.type};base64,${f.data}" style="max-width:300px;margin:10px 0;" alt="${escapeHtml(f.name)}" /></p>`).join('')}
+      </div>
+    `
+    : '';
+
   await sendMail({
     to: siteConfig.email,
     replyTo: payload.email,
@@ -52,6 +86,7 @@ export async function POST(req: Request) {
       <p>Préférence de contact : ${payload.contactPref}</p>
       <hr />
       <p style="white-space:pre-wrap">${escapeHtml(payload.description)}</p>
+      ${photosHtml}
     `,
   });
 

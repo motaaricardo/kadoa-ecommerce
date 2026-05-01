@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { Loader2, Send } from 'lucide-react';
+import { Loader2, Send, Upload, X } from 'lucide-react';
 
 export default function QuotePage() {
   const t = useTranslations('quote');
@@ -12,6 +12,7 @@ export default function QuotePage() {
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -27,24 +28,40 @@ export default function QuotePage() {
   const change = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFiles((prev) => [...prev, ...Array.from(e.target.files || [])]);
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErr(null);
     setSubmitting(true);
     try {
+      const formData = new FormData();
+      formData.append('data', JSON.stringify({
+        ...form,
+        estimatedQty: form.estimatedQty ? Number(form.estimatedQty) : undefined,
+        budgetCents: form.budget ? Math.round(Number(form.budget) * 100) : undefined,
+        locale,
+      }));
+      files.forEach((file) => {
+        formData.append('files', file);
+      });
+
       const res = await fetch('/api/quote', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          estimatedQty: form.estimatedQty ? Number(form.estimatedQty) : undefined,
-          budgetCents: form.budget ? Math.round(Number(form.budget) * 100) : undefined,
-          locale,
-        }),
+        body: formData,
       });
       if (!res.ok) throw new Error('failed');
       setSent(true);
       setForm({ name: '', email: '', phone: '', eventType: 'baby_shower', description: '', desiredDate: '', estimatedQty: '', budget: '', contactPref: 'email' });
+      setFiles([]);
     } catch {
       setErr(t('form.error'));
     } finally {
@@ -76,6 +93,36 @@ export default function QuotePage() {
         <div>
           <label className="label">{t('form.description')}</label>
           <textarea required rows={5} value={form.description} onChange={change('description')} className="input" />
+        </div>
+        <div>
+          <label className="label">Fotos do projeto (opcional)</label>
+          <div className="rounded-2xl border-2 border-dashed border-baby-200 bg-baby-50/30 p-6 text-center">
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+              id="file-upload"
+            />
+            <label htmlFor="file-upload" className="block cursor-pointer">
+              <Upload className="mx-auto h-8 w-8 text-ink-soft mb-2" />
+              <p className="text-sm font-medium text-ink">Clica aqui ou arrasta fotos</p>
+              <p className="text-xs text-ink-mute">PNG, JPG ou GIF (máx 5MB cada)</p>
+            </label>
+          </div>
+          {files.length > 0 && (
+            <div className="mt-4 space-y-2">
+              {files.map((file, idx) => (
+                <div key={idx} className="flex items-center justify-between rounded-lg bg-baby-50 px-3 py-2">
+                  <span className="text-sm text-ink">{file.name}</span>
+                  <button type="button" onClick={() => removeFile(idx)} className="text-ink-soft hover:text-rose-500">
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
           <div><label className="label">{t('form.desiredDate')}</label><input type="date" value={form.desiredDate} onChange={change('desiredDate')} className="input" /></div>
