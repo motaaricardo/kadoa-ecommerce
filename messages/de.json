@@ -20,7 +20,10 @@
     "corporate": "Firmenanlässe",
     "wedding": "Hochzeiten",
     "baptism": "Taufen",
-    "birthday": "Geburtstage"
+    "birthday": "Geburtstage",
+    "travel_souvenirs": "Reiseandenken",
+    "kadoa_products": "Kadoa Produkte",
+    "customizable_products": "Anpassbare Produkte"
   },
   "home": {
     "hero": {

@@ -20,7 +20,10 @@
     "corporate": "Corporate Events",
     "wedding": "Weddings",
     "baptism": "Baptisms",
-    "birthday": "Birthdays"
+    "birthday": "Birthdays",
+    "travel_souvenirs": "Travel Souvenirs",
+    "kadoa_products": "Kadoa Products",
+    "customizable_products": "Customizable Products"
   },
   "home": {
     "hero": {

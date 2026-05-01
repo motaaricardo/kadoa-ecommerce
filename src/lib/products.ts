@@ -3,7 +3,7 @@ import type { Locale } from '@/i18n/routing';
 
 export type Loc = { fr: string; en: string; de: string; pt: string };
 
-export const CATEGORIES = ['baby_shower', 'corporate', 'wedding', 'baptism', 'birthday'] as const;
+export const CATEGORIES = ['baby_shower', 'corporate', 'wedding', 'baptism', 'birthday', 'travel_souvenirs', 'kadoa_products', 'customizable_products'] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 export function pickLocale(jsonString: string, locale: Locale): string {

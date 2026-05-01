@@ -1,660 +1,120 @@
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
-type Loc = { fr: string; en: string; de: string; pt: string };
-type Seed = {
-  slug: string;
-  category: 'baby_shower' | 'corporate' | 'wedding' | 'baptism' | 'birthday';
-  name: Loc;
-  short: Loc;
-  long: Loc;
-  priceCents: number;
-  stock: number;
-  featured?: boolean;
-};
+const products = [
+  // Baby Shower - 10 produtos
+  { slug: 'baby-shower-bottle-personalized', category: 'baby_shower', name: JSON.stringify({ pt: 'Mamadeira Personalizada', fr: 'Biberon Personnalisé', en: 'Personalized Baby Bottle', de: 'Personalisierte Babyflasche' }), shortDescription: JSON.stringify({ pt: 'Mamadeira com nome gravado', fr: 'Biberon avec nom gravé', en: 'Baby bottle with engraved name', de: 'Babyflasche mit eingraviertem Namen' }), longDescription: JSON.stringify({ pt: 'Mamadeira de vidro resistente com gravação laser personalizada.', fr: 'Biberon en verre résistant avec gravure laser personnalisée.', en: 'Durable glass baby bottle with personalized laser engraving.', de: 'Robuste Glasflasche mit personalisierter Lasergravur.' }), priceCents: 2800, stock: 15, featured: true },
+  { slug: 'baby-shower-pacifier-holder', category: 'baby_shower', name: JSON.stringify({ pt: 'Corrente de Chupeta', fr: 'Chaîne de Sucette', en: 'Pacifier Holder Chain', de: 'Schnullerkette' }), shortDescription: JSON.stringify({ pt: 'Corrente com nome gravado', fr: 'Chaîne avec nom gravé', en: 'Chain with engraved name', de: 'Kette mit eingraviertem Namen' }), longDescription: JSON.stringify({ pt: 'Corrente de madeira e acrílico com gravação personalizada.', fr: 'Chaîne en bois et acrylique avec gravure personnalisée.', en: 'Wooden and acrylic chain with personalized engraving.', de: 'Kette aus Holz und Acryl mit personalisierter Gravur.' }), priceCents: 1500, stock: 25 },
+  { slug: 'baby-shower-onesie-print', category: 'baby_shower', name: JSON.stringify({ pt: 'Body Personalizado', fr: 'Body Personnalisé', en: 'Personalized Onesie', de: 'Personalisierter Body' }), shortDescription: JSON.stringify({ pt: 'Body de bebé com sublimação personalizada', fr: 'Body bébé avec sublimation personnalisée', en: 'Baby onesie with custom sublimation', de: 'Baby-Body mit benutzerdefinierter Sublimation' }), longDescription: JSON.stringify({ pt: 'Body 100% algodão com impressão UV personalizada.', fr: 'Body 100% coton avec impression UV personnalisée.', en: '100% cotton onesie with custom UV printing.', de: '100% Baumwoll-Body mit benutzerdefinierter UV-Drucke.' }), priceCents: 1800, stock: 20, featured: true },
+  { slug: 'baby-shower-name-plaque', category: 'baby_shower', name: JSON.stringify({ pt: 'Placa com Nome', fr: 'Plaque avec Nom', en: 'Name Plaque', de: 'Namensplakette' }), shortDescription: JSON.stringify({ pt: 'Placa de madeira para quarto', fr: 'Plaque en bois pour chambre', en: 'Wooden wall plaque', de: 'Holzwandplakette' }), longDescription: JSON.stringify({ pt: 'Placa de madeira MDF gravada a laser com o nome do bebé.', fr: 'Plaque en bois MDF gravée au laser avec le nom du bébé.', en: 'Laser-engraved MDF wood plaque with baby\'s name.', de: 'Laser-gravierte MDF-Holzplakette mit Babynamen.' }), priceCents: 2200, stock: 18 },
+  { slug: 'baby-shower-milestone-cards', category: 'baby_shower', name: JSON.stringify({ pt: 'Cartões de Marcos', fr: 'Cartes Jalons', en: 'Milestone Cards', de: 'Meilenstein-Karten' }), shortDescription: JSON.stringify({ pt: 'Kit de 12 cartões impressos', fr: 'Kit de 12 cartes imprimées', en: 'Set of 12 printed cards', de: 'Satz von 12 bedruckten Karten' }), longDescription: JSON.stringify({ pt: 'Kit com 12 cartões marcos para fotos do bebé.', fr: 'Kit avec 12 cartes jalons pour photos bébé.', en: 'Kit with 12 milestone cards for baby photos.', de: 'Kit mit 12 Meilenstein-Karten für Babyfotos.' }), priceCents: 1900, stock: 22 },
+  { slug: 'baby-shower-rattle-3d-print', category: 'baby_shower', name: JSON.stringify({ pt: 'Chocalho 3D', fr: 'Hochet 3D', en: '3D Printed Rattle', de: '3D gedrucktes Rasseln' }), shortDescription: JSON.stringify({ pt: 'Chocalho impresso em 3D colorido', fr: 'Hochet imprimé en 3D coloré', en: 'Colorful 3D printed rattle', de: 'Buntes 3D-gedrucktes Rasseln' }), longDescription: JSON.stringify({ pt: 'Chocalho seguro para bebés, impresso em 3D.', fr: 'Hochet sûr pour bébés, imprimé en 3D.', en: 'Safe baby rattle, 3D printed with non-toxic filament.', de: 'Sicheres Babyrasseln, 3D-gedruckt.' }), priceCents: 2500, stock: 12 },
+  { slug: 'baby-shower-photo-frame', category: 'baby_shower', name: JSON.stringify({ pt: 'Moldura com Foto', fr: 'Cadre Photo Personnalisé', en: 'Personalized Photo Frame', de: 'Personalisierter Bilderrahmen' }), shortDescription: JSON.stringify({ pt: 'Moldura de madeira com foto gravada', fr: 'Cadre en bois avec photo gravée', en: 'Wooden frame with engraved photo', de: 'Holzrahmen mit graviertem Foto' }), longDescription: JSON.stringify({ pt: 'Moldura de madeira com gravação laser de foto personalizada.', fr: 'Cadre en bois avec gravure laser de photo personnalisée.', en: 'Wooden frame with personalized laser-engraved photo.', de: 'Holzrahmen mit personalisiertem Laser-Fotogravur.' }), priceCents: 3200, stock: 10, featured: true },
+  { slug: 'baby-shower-bib-set', category: 'baby_shower', name: JSON.stringify({ pt: 'Kit de Babadores', fr: 'Ensemble de Bavoirs', en: 'Bib Set', de: 'Lätzchensatz' }), shortDescription: JSON.stringify({ pt: 'Kit com 3 babadores personalizados', fr: 'Ensemble de 3 bavoirs personnalisés', en: 'Set of 3 personalized bibs', de: 'Satz von 3 personalisierten Lätzchen' }), longDescription: JSON.stringify({ pt: 'Kit com 3 babadores de algodão com sublimação personalizada.', fr: 'Ensemble de 3 bavoirs en coton avec sublimation personnalisée.', en: 'Set of 3 cotton bibs with custom sublimation.', de: 'Satz von 3 Baumwolllätzchen mit benutzerdefinierter Sublimation.' }), priceCents: 2100, stock: 14 },
+  { slug: 'baby-shower-crib-banner', category: 'baby_shower', name: JSON.stringify({ pt: 'Faixa para Berço', fr: 'Bannière de Berceau', en: 'Crib Banner', de: 'Wiege Banner' }), shortDescription: JSON.stringify({ pt: 'Faixa de pano com nome', fr: 'Bannière en tissu avec nom', en: 'Fabric banner with name', de: 'Stoffbanner mit Namen' }), longDescription: JSON.stringify({ pt: 'Faixa de pano impresso com o nome do bebé.', fr: 'Bannière en tissu imprimée avec le nom du bébé.', en: 'Printed fabric banner with baby\'s name.', de: 'Bedrucktes Stoffbanner mit Babynamen.' }), priceCents: 1600, stock: 16 },
+  { slug: 'baby-shower-growth-chart', category: 'baby_shower', name: JSON.stringify({ pt: 'Medidor de Crescimento', fr: 'Règle de Croissance', en: 'Growth Chart', de: 'Wachstumsmesser' }), shortDescription: JSON.stringify({ pt: 'Medidor personalizado para parede', fr: 'Règle personnalisée pour mur', en: 'Personalized wall growth chart', de: 'Personalisierter Wand-Wachstumsmesser' }), longDescription: JSON.stringify({ pt: 'Medidor de madeira com gravação laser e nome personalizado.', fr: 'Règle en bois avec gravure laser et nom personnalisé.', en: 'Wooden growth chart with laser engraving and personalized name.', de: 'Holz-Wachstumsmesser mit Lasergravur und personalisiertem Namen.' }), priceCents: 2800, stock: 11 },
 
-const j = (l: Loc) => JSON.stringify(l);
+  // Corporate Events - 10 produtos
+  { slug: 'corporate-gift-box-custom', category: 'corporate', name: JSON.stringify({ pt: 'Caixa de Presentes Corporativa', fr: 'Boîte Cadeau Corporative', en: 'Corporate Gift Box', de: 'Unternehmensgeschenkbox' }), shortDescription: JSON.stringify({ pt: 'Caixa personalizada com logo', fr: 'Boîte personnalisée avec logo', en: 'Box with personalized logo', de: 'Box mit personalisiertem Logo' }), longDescription: JSON.stringify({ pt: 'Caixa MDF gravada a laser com logo da empresa.', fr: 'Boîte MDF gravée au laser avec logo de l\'entreprise.', en: 'Laser-engraved MDF box with company logo.', de: 'Laser-gravierte MDF-Box mit Unternehmenslogo.' }), priceCents: 4500, stock: 8, featured: true },
+  { slug: 'corporate-pen-holder-3d', category: 'corporate', name: JSON.stringify({ pt: 'Suporte para Canetas 3D', fr: 'Porte-stylos 3D', en: '3D Pen Holder', de: '3D Stifthalter' }), shortDescription: JSON.stringify({ pt: 'Suporte impresso em 3D personalizado', fr: 'Porte-stylos imprimé en 3D personnalisé', en: 'Custom 3D printed pen holder', de: 'Benutzerdefinierter 3D-gedruckter Stifthalter' }), longDescription: JSON.stringify({ pt: 'Suporte para canetas impresso em 3D com nome da empresa.', fr: 'Porte-stylos imprimé en 3D avec le nom de l\'entreprise.', en: 'Pen holder 3D printed with company name or logo.', de: 'Stifthalter 3D-gedruckt mit Unternehmensname oder Logo.' }), priceCents: 3200, stock: 15, featured: true },
+  { slug: 'corporate-nameplate-acrylic', category: 'corporate', name: JSON.stringify({ pt: 'Placa de Acrílico para Secretária', fr: 'Plaque Acrylique de Bureau', en: 'Acrylic Desk Nameplate', de: 'Acryl-Büroschild' }), shortDescription: JSON.stringify({ pt: 'Placa de acrílico gravada a laser', fr: 'Plaque acrylique gravée au laser', en: 'Laser-engraved acrylic plaque', de: 'Laser-gravierte Acrylplakette' }), longDescription: JSON.stringify({ pt: 'Placa de acrílico com gravação laser de nome e cargo.', fr: 'Plaque acrylique avec gravure laser du nom et du titre.', en: 'Acrylic plaque with laser-engraved name and title.', de: 'Acrylplakette mit laser-graviertem Namen und Titel.' }), priceCents: 2800, stock: 12 },
+  { slug: 'corporate-mug-print', category: 'corporate', name: JSON.stringify({ pt: 'Caneca Personalizada', fr: 'Mug Personnalisé', en: 'Personalized Mug', de: 'Personalisierte Tasse' }), shortDescription: JSON.stringify({ pt: 'Caneca com sublimação personalizada', fr: 'Mug avec sublimation personnalisée', en: 'Mug with custom sublimation', de: 'Tasse mit benutzerdefinierter Sublimation' }), longDescription: JSON.stringify({ pt: 'Caneca de cerâmica com impressão UV e logo corporativo.', fr: 'Mug en céramique avec impression UV et logo corporate.', en: 'Ceramic mug with UV printing and corporate logo.', de: 'Keramiktasse mit UV-Druck und Unternehmenslogo.' }), priceCents: 1500, stock: 30 },
+  { slug: 'corporate-award-trophy', category: 'corporate', name: JSON.stringify({ pt: 'Troféu Corporativo', fr: 'Trophée Corporatif', en: 'Corporate Trophy', de: 'Unternehmenspokal' }), shortDescription: JSON.stringify({ pt: 'Troféu personalizado com placa', fr: 'Trophée personnalisé avec plaque', en: 'Trophy with custom nameplate', de: 'Pokal mit personalisiertem Schild' }), longDescription: JSON.stringify({ pt: 'Troféu de acrílico e madeira com placa de gravação personalizada.', fr: 'Trophée en acrylique et bois avec plaque de gravure personnalisée.', en: 'Acrylic and wood trophy with custom engraved nameplate.', de: 'Acryl- und Holzpokal mit personalisiertem Gravurschild.' }), priceCents: 5500, stock: 6 },
+  { slug: 'corporate-desk-calendar', category: 'corporate', name: JSON.stringify({ pt: 'Calendário de Secretária', fr: 'Calendrier de Bureau', en: 'Desk Calendar', de: 'Bürokalender' }), shortDescription: JSON.stringify({ pt: 'Calendário com logo personalizado', fr: 'Calendrier avec logo personnalisé', en: 'Calendar with custom logo', de: 'Kalender mit personalisiertem Logo' }), longDescription: JSON.stringify({ pt: 'Calendário de madeira gravado a laser com logo e datas.', fr: 'Calendrier en bois gravé au laser avec logo et dates.', en: 'Laser-engraved wooden calendar with company logo and dates.', de: 'Laser-gravierter Holzkalender mit Unternehmenslogo und -daten.' }), priceCents: 2200, stock: 10 },
+  { slug: 'corporate-leather-coaster', category: 'corporate', name: JSON.stringify({ pt: 'Suportes de Couro', fr: 'Sous-verres en Cuir', en: 'Leather Coasters', de: 'Leder-Untersetzer' }), shortDescription: JSON.stringify({ pt: 'Kit com 4 suportes de couro gravados', fr: 'Kit avec 4 sous-verres en cuir gravés', en: 'Set of 4 engraved leather coasters', de: 'Satz von 4 gravierten Leder-Untersetzern' }), longDescription: JSON.stringify({ pt: 'Kit com 4 suportes de couro genuíno com gravação personalizada.', fr: 'Kit avec 4 sous-verres en cuir véritable avec gravure personnalisée.', en: 'Set of 4 genuine leather coasters with personalized engraving.', de: 'Satz von 4 Untersetzern aus echtem Leder mit personalisierter Gravur.' }), priceCents: 3500, stock: 8 },
+  { slug: 'corporate-business-card-holder', category: 'corporate', name: JSON.stringify({ pt: 'Suporte para Cartões', fr: 'Porte-cartes Professionnel', en: 'Business Card Holder', de: 'Visitenkarten-Halter' }), shortDescription: JSON.stringify({ pt: 'Suporte de madeira gravado', fr: 'Porte-cartes en bois gravé', en: 'Engraved wooden card holder', de: 'Gravierter Holz-Kartenhalter' }), longDescription: JSON.stringify({ pt: 'Suporte para cartões de visita em madeira com gravação personalizada.', fr: 'Porte-cartes de visite en bois avec gravure personnalisée.', en: 'Wooden business card holder with personalized logo engraving.', de: 'Holz-Visitenkarten-Halter mit personalisierter Logo-Gravur.' }), priceCents: 1800, stock: 14 },
+  { slug: 'corporate-keychain-metal', category: 'corporate', name: JSON.stringify({ pt: 'Chaveiros Personalizados', fr: 'Porte-clés Personnalisés', en: 'Personalized Keychains', de: 'Personalisierte Schlüsselanhänger' }), shortDescription: JSON.stringify({ pt: 'Chaveiros de metal com logo', fr: 'Porte-clés en métal avec logo', en: 'Metal keychains with logo', de: 'Metallschlüsselanhänger mit Logo' }), longDescription: JSON.stringify({ pt: 'Chaveiros de metal personalizados com gravação do logo corporativo.', fr: 'Porte-clés en métal personnalisés avec gravure du logo corporate.', en: 'Personalized metal keychains with engraved company logo.', de: 'Personalisierte Metallschlüsselanhänger mit graviertem Unternehmenslogo.' }), priceCents: 1200, stock: 50, featured: true },
 
-// Helper to keep the seed compact: build a Loc with FR + EN content.
-// DE / PT are filled with EN as a sensible fallback so the admin can refine later.
-const L = (fr: string, en: string, de?: string, pt?: string): Loc => ({
-  fr,
-  en,
-  de: de ?? en,
-  pt: pt ?? fr,
-});
+  // Weddings - 10 produtos
+  { slug: 'wedding-invitation-custom', category: 'wedding', name: JSON.stringify({ pt: 'Convite Personalizado', fr: 'Invitation Personnalisée', en: 'Custom Wedding Invitation', de: 'Personalisierte Hochzeitseinladung' }), shortDescription: JSON.stringify({ pt: 'Convite gravado a laser', fr: 'Invitation gravée au laser', en: 'Laser-engraved invitation', de: 'Laser-gravierte Einladung' }), longDescription: JSON.stringify({ pt: 'Convite de casamento em papel premium com gravação laser personalizada.', fr: 'Invitation de mariage sur papier de haute qualité avec gravure laser personnalisée.', en: 'Wedding invitation on premium paper with personalized laser engraving.', de: 'Hochzeitseinladung auf hochwertigem Papier mit personalisierter Lasergravur.' }), priceCents: 3500, stock: 10, featured: true },
+  { slug: 'wedding-place-card-name', category: 'wedding', name: JSON.stringify({ pt: 'Cartão de Lugar', fr: 'Carte de Place', en: 'Place Card', de: 'Tischkarte' }), shortDescription: JSON.stringify({ pt: 'Cartão gravado com nome', fr: 'Carte gravée avec nom', en: 'Card with guest name', de: 'Karte mit Gastname' }), longDescription: JSON.stringify({ pt: 'Cartões de lugar em papel premium com gravação personalizada de nomes.', fr: 'Cartes de place sur papier premium avec gravure personnalisée du nom des invités.', en: 'Premium paper place cards with personalized guest name engraving.', de: 'Premium-Papier-Tischkarten mit personalisierter Gastnamengravur.' }), priceCents: 2800, stock: 25 },
+  { slug: 'wedding-ring-box-3d', category: 'wedding', name: JSON.stringify({ pt: 'Caixa para Alianças', fr: 'Boîte pour Alliances', en: 'Ring Box', de: 'Ringbox' }), shortDescription: JSON.stringify({ pt: 'Caixa 3D personalizada', fr: 'Boîte 3D personnalisée', en: 'Custom 3D ring box', de: 'Benutzerdefinierte 3D-Ringbox' }), longDescription: JSON.stringify({ pt: 'Caixa para alianças impressa em 3D com nomes dos noivos gravados.', fr: 'Boîte pour alliances imprimée en 3D avec noms des mariés gravés.', en: '3D printed ring box with engraved names of the bride and groom.', de: '3D-gedruckte Ringbox mit gravierten Namen des Brautpaares.' }), priceCents: 4200, stock: 8, featured: true },
+  { slug: 'wedding-cake-topper', category: 'wedding', name: JSON.stringify({ pt: 'Topo de Bolo', fr: 'Décoration Gâteau', en: 'Cake Topper', de: 'Tortendekoration' }), shortDescription: JSON.stringify({ pt: 'Topo 3D gravado com nomes', fr: 'Décoration 3D gravée avec noms', en: '3D topper with names', de: '3D-Dekoration mit Namen' }), longDescription: JSON.stringify({ pt: 'Topo de bolo impresso em 3D ou madeira com nomes do casal.', fr: 'Décoration gâteau imprimée en 3D ou bois avec les noms du couple.', en: 'Cake topper 3D printed or wooden with couple\'s names.', de: 'Tortendekoration 3D-gedruckt oder Holz mit dem Namen des Paares.' }), priceCents: 3200, stock: 12 },
+  { slug: 'wedding-guest-book-custom', category: 'wedding', name: JSON.stringify({ pt: 'Livro de Visitas', fr: 'Livre d\'Or', en: 'Guest Book', de: 'Gästebuch' }), shortDescription: JSON.stringify({ pt: 'Livro gravado com nomes', fr: 'Livre gravé avec noms', en: 'Book with engraved names', de: 'Buch mit gravierten Namen' }), longDescription: JSON.stringify({ pt: 'Livro de visitas com capa de madeira gravada e papel interior premium.', fr: 'Livre d\'or avec couverture en bois gravée et papier intérieur premium.', en: 'Guest book with engraved wooden cover and premium interior paper.', de: 'Gästebuch mit graviertem Holzcover und hochwertigem Innenpapier.' }), priceCents: 5500, stock: 6 },
+  { slug: 'wedding-thank-you-card', category: 'wedding', name: JSON.stringify({ pt: 'Cartão de Agradecimento', fr: 'Carte de Remerciement', en: 'Thank You Card', de: 'Danksagungskarte' }), shortDescription: JSON.stringify({ pt: 'Cartões impressos personalizados', fr: 'Cartes imprimées personnalisées', en: 'Custom printed cards', de: 'Benutzerdefinierte gedruckte Karten' }), longDescription: JSON.stringify({ pt: 'Cartões de agradecimento impressos com design personalizado e nomes.', fr: 'Cartes de remerciement imprimées avec design personnalisé et noms des mariés.', en: 'Thank you cards printed with custom design and couple\'s names.', de: 'Dankesagungskarten mit benutzerdefiniertem Design und Namen des Paares bedruckt.' }), priceCents: 2200, stock: 40 },
+  { slug: 'wedding-table-number', category: 'wedding', name: JSON.stringify({ pt: 'Números de Mesa', fr: 'Numéros de Table', en: 'Table Numbers', de: 'Tischnummern' }), shortDescription: JSON.stringify({ pt: 'Números gravados em madeira', fr: 'Numéros gravés en bois', en: 'Engraved wood numbers', de: 'Gravierte Holznummern' }), longDescription: JSON.stringify({ pt: 'Números de mesa em madeira ou acrílico gravados a laser.', fr: 'Numéros de table en bois ou acrylique gravés au laser.', en: 'Table numbers in wood or acrylic laser-engraved.', de: 'Tischnummern aus Holz oder Acryl laser-graviert.' }), priceCents: 1800, stock: 20 },
+  { slug: 'wedding-seating-chart', category: 'wedding', name: JSON.stringify({ pt: 'Plano de Mesas', fr: 'Plan de Placement', en: 'Seating Chart', de: 'Sitzplan' }), shortDescription: JSON.stringify({ pt: 'Painel gravado personalizado', fr: 'Panneau gravé personnalisé', en: 'Custom engraved panel', de: 'Benutzerdefiniertes graviertes Panel' }), longDescription: JSON.stringify({ pt: 'Painel grande de madeira com gravação do plano de mesas.', fr: 'Grand panneau en bois avec gravure du plan de placement.', en: 'Large wooden panel with engraved seating chart.', de: 'Großes Holz-Panel mit graviertem Sitzplan.' }), priceCents: 6500, stock: 4, featured: true },
+  { slug: 'wedding-favor-box', category: 'wedding', name: JSON.stringify({ pt: 'Caixa de Favor', fr: 'Boîte Cadeau Mariage', en: 'Favor Box', de: 'Geschenkbox' }), shortDescription: JSON.stringify({ pt: 'Caixa MDF para brinde', fr: 'Boîte MDF pour brinde', en: 'MDF favor box', de: 'MDF-Geschenkbox' }), longDescription: JSON.stringify({ pt: 'Caixa MDF gravada com nomes dos noivos para lembrança de casamento.', fr: 'Boîte MDF gravée avec noms des mariés pour souvenir de mariage.', en: 'Laser-engraved MDF favor box with couple\'s names for wedding memories.', de: 'Laser-gravierte MDF-Geschenkbox mit dem Namen des Paares für Hochzeitserinnerungen.' }), priceCents: 2800, stock: 30 },
 
-const products: Seed[] = [
-  // ============== BABY SHOWER (10) ==============
-  {
-    slug: 'caixas-baby-personalizadas',
-    category: 'baby_shower',
-    name: L('Boîtes Baby Personnalisées', 'Personalised Baby Boxes'),
-    short: L('Boîtes cadeau imprimées avec le nom du bébé', 'Gift boxes printed with the baby\'s name'),
-    long: L(
-      'Boîtes cadeau élégantes avec impression UV haute qualité. Idéales pour offrir des dragées, biscuits ou petits cadeaux. Personnalisation complète avec le nom et la date de naissance.',
-      'Elegant gift boxes with high-quality UV printing. Perfect for sweets, biscuits or small gifts. Full personalisation with name and birth date.',
-    ),
-    priceCents: 1890, stock: 50, featured: true,
-  },
-  {
-    slug: 'garrafas-baby-personalizadas',
-    category: 'baby_shower',
-    name: L('Bouteilles Personnalisées', 'Personalised Bottles'),
-    short: L('Bouteilles d\'eau gravées laser', 'Laser-engraved water bottles'),
-    long: L(
-      'Bouteilles en verre ou acier inoxydable gravées au laser avec design unique. Souvenir durable pour vos invités.',
-      'Glass or stainless steel bottles laser-engraved with a unique design. Durable keepsake for your guests.',
-    ),
-    priceCents: 2450, stock: 80,
-  },
-  {
-    slug: 'velas-decorativas-baby',
-    category: 'baby_shower',
-    name: L('Bougies Décoratives Baby', 'Decorative Baby Candles'),
-    short: L('Bougies parfumées avec étiquette personnalisée', 'Scented candles with custom label'),
-    long: L(
-      'Bougies artisanales parfumées avec étiquette imprimée sur mesure. Cire de soja naturelle, parfums doux adaptés à un baby shower.',
-      'Handcrafted scented candles with custom-printed label. Natural soy wax, gentle scents perfect for a baby shower.',
-    ),
-    priceCents: 1650, stock: 60,
-  },
-  {
-    slug: 'lembrancas-acrilico-baby',
-    category: 'baby_shower',
-    name: L('Souvenirs en Acrylique', 'Acrylic Keepsakes'),
-    short: L('Plaques acryliques découpées au laser', 'Laser-cut acrylic plaques'),
-    long: L(
-      'Plaques acryliques transparentes ou colorées, découpées et gravées au laser. Personnalisation avec prénom, date et motifs au choix.',
-      'Clear or coloured acrylic plaques, laser-cut and engraved. Personalised with name, date and your choice of motifs.',
-    ),
-    priceCents: 1290, stock: 100, featured: true,
-  },
-  {
-    slug: 'bolsinhas-baby-personalizadas',
-    category: 'baby_shower',
-    name: L('Pochettes Personnalisées', 'Personalised Pouches'),
-    short: L('Petites pochettes en tissu pour cadeaux', 'Small fabric pouches for gifts'),
-    long: L(
-      'Pochettes en coton ou lin avec impression sublimation. Réutilisables, idéales pour offrir des petits cadeaux ou des dragées.',
-      'Cotton or linen pouches with sublimation print. Reusable, ideal for small gifts or sweets.',
-    ),
-    priceCents: 990, stock: 120,
-  },
-  {
-    slug: 'biscoitos-personalizados-baby',
-    category: 'baby_shower',
-    name: L('Biscuits Personnalisés', 'Personalised Cookies'),
-    short: L('Biscuits décorés avec design unique', 'Decorated cookies with custom design'),
-    long: L(
-      'Biscuits artisanaux décorés à la main avec glaçage royal. Designs personnalisés selon le thème de votre événement.',
-      'Handcrafted cookies decorated by hand with royal icing. Custom designs to match your event theme.',
-    ),
-    priceCents: 350, stock: 200,
-  },
-  {
-    slug: 'marcadores-livro-baby',
-    category: 'baby_shower',
-    name: L('Marque-pages Souvenirs', 'Bookmark Keepsakes'),
-    short: L('Marque-pages élégants pour vos invités', 'Elegant bookmarks for your guests'),
-    long: L(
-      'Marque-pages en métal ou acrylique avec gravure laser. Souvenir utile et raffiné, parfait à offrir.',
-      'Metal or acrylic bookmarks with laser engraving. A useful and refined keepsake, perfect to give.',
-    ),
-    priceCents: 590, stock: 150,
-  },
-  {
-    slug: 'bonecas-personalizadas',
-    category: 'baby_shower',
-    name: L('Poupées Personnalisées', 'Personalised Dolls'),
-    short: L('Poupées en tissu avec prénom brodé', 'Fabric dolls with embroidered name'),
-    long: L(
-      'Poupées artisanales en tissu doux avec broderie du prénom. Cadeau tendre et unique pour le bébé à naître.',
-      'Handcrafted soft fabric dolls with embroidered name. A tender, unique gift for the baby-to-be.',
-    ),
-    priceCents: 4500, stock: 25,
-  },
-  {
-    slug: 'mobiles-decorativos',
-    category: 'baby_shower',
-    name: L('Mobiles Décoratifs', 'Decorative Mobiles'),
-    short: L('Mobiles personnalisés pour la chambre', 'Personalised nursery mobiles'),
-    long: L(
-      'Mobiles fabriqués sur mesure en bois et feutrine. Designs uniques au choix : étoiles, animaux, nuages.',
-      'Custom-made mobiles in wood and felt. Unique designs to choose from: stars, animals, clouds.',
-    ),
-    priceCents: 7800, stock: 15,
-  },
-  {
-    slug: 'kit-presente-baby-completo',
-    category: 'baby_shower',
-    name: L('Kit Cadeau Baby Complet', 'Complete Baby Gift Kit'),
-    short: L('Coffret tout-en-un pour baby shower', 'All-in-one baby shower set'),
-    long: L(
-      'Coffret cadeau prestige incluant boîte personnalisée, bougie, biscuits décorés et marque-page. Le tout sur mesure.',
-      'Premium gift set including personalised box, candle, decorated cookies and bookmark. All custom-made.',
-    ),
-    priceCents: 8900, stock: 20, featured: true,
-  },
+  // Baptism - 10 produtos
+  { slug: 'baptism-invitation-card', category: 'baptism', name: JSON.stringify({ pt: 'Convite de Batizado', fr: 'Invitation Baptême', en: 'Baptism Invitation', de: 'Taufeinladung' }), shortDescription: JSON.stringify({ pt: 'Convite gravado personalizado', fr: 'Invitation gravée personnalisée', en: 'Personalized engraved invitation', de: 'Personalisierte Gravureinladung' }), longDescription: JSON.stringify({ pt: 'Convite de batizado em papel premium com gravação personalizada.', fr: 'Invitation de baptême sur papier premium avec gravure personnalisée.', en: 'Baptism invitation on premium paper with personalized engraving.', de: 'Taufeinladung auf hochwertigem Papier mit personalisierter Gravur.' }), priceCents: 3200, stock: 15, featured: true },
+  { slug: 'baptism-cross-pendant', category: 'baptism', name: JSON.stringify({ pt: 'Cruz Pendente 3D', fr: 'Croix Pendentif 3D', en: '3D Cross Pendant', de: '3D Kreuzanhänger' }), shortDescription: JSON.stringify({ pt: 'Cruz impressa em 3D personalizada', fr: 'Croix imprimée en 3D personnalisée', en: 'Custom 3D printed cross', de: 'Benutzerdefinierter 3D-gedruckter Kreuz' }), longDescription: JSON.stringify({ pt: 'Cruz pendente impressa em 3D com nome do batizado.', fr: 'Croix pendentif imprimée en 3D avec le nom du baptisé.', en: '3D printed cross pendant with child\'s name.', de: '3D-gedruckter Kreuzanhänger mit dem Namen des Taufkindes.' }), priceCents: 2800, stock: 10 },
+  { slug: 'baptism-candle-personalized', category: 'baptism', name: JSON.stringify({ pt: 'Vela de Batizado', fr: 'Bougie Baptême', en: 'Baptism Candle', de: 'Taufkerze' }), shortDescription: JSON.stringify({ pt: 'Vela com gravação personalizada', fr: 'Bougie avec gravure personnalisée', en: 'Candle with custom engraving', de: 'Kerze mit benutzerdefinierter Gravur' }), longDescription: JSON.stringify({ pt: 'Vela de parafina com gravação laser do nome e data do batizado.', fr: 'Bougie en paraffine avec gravure laser du nom et date du baptême.', en: 'Paraffin candle with laser-engraved name and baptism date.', de: 'Paraffinkerze mit laser-graviertem Namen und Taufdatum.' }), priceCents: 1500, stock: 20 },
+  { slug: 'baptism-frame-photo', category: 'baptism', name: JSON.stringify({ pt: 'Moldura para Foto', fr: 'Cadre Photo', en: 'Photo Frame', de: 'Bilderrahmen' }), shortDescription: JSON.stringify({ pt: 'Moldura gravada com nome', fr: 'Cadre gravé avec nom', en: 'Frame with engraved name', de: 'Rahmen mit graviertem Namen' }), longDescription: JSON.stringify({ pt: 'Moldura de madeira com gravação do nome para foto do batizado.', fr: 'Cadre en bois avec gravure du nom pour photo du baptême.', en: 'Wooden frame with engraved name for baptism photo.', de: 'Holzrahmen mit graviertem Namen für Tautfoto.' }), priceCents: 2500, stock: 12 },
+  { slug: 'baptism-guest-book', category: 'baptism', name: JSON.stringify({ pt: 'Livro de Presença', fr: 'Livre de Présence', en: 'Guest Book', de: 'Gästebuch' }), shortDescription: JSON.stringify({ pt: 'Livro com capa gravada', fr: 'Livre avec couverture gravée', en: 'Book with engraved cover', de: 'Buch mit graviertem Umschlag' }), longDescription: JSON.stringify({ pt: 'Livro de presença com capa de madeira gravada com nome e data.', fr: 'Livre de présence avec couverture en bois gravée avec nom et date.', en: 'Guest book with wooden cover engraved with name and date.', de: 'Anwesenheitsbuch mit Holzcover graviert mit Namen und Datum.' }), priceCents: 4200, stock: 8 },
+  { slug: 'baptism-medal-custom', category: 'baptism', name: JSON.stringify({ pt: 'Medalha Personalizada', fr: 'Médaille Personnalisée', en: 'Custom Medal', de: 'Personalisierte Medaille' }), shortDescription: JSON.stringify({ pt: 'Medalha de metal com gravação', fr: 'Médaille en métal avec gravure', en: 'Metal medal with engraving', de: 'Metallmedaille mit Gravur' }), longDescription: JSON.stringify({ pt: 'Medalha de metal com fita personalizada e gravação do nome.', fr: 'Médaille en métal avec ruban personnalisé et gravure du nom.', en: 'Metal medal with personalized ribbon and engraved name.', de: 'Metallmedaille mit personalisiertem Band und graviertem Namen.' }), priceCents: 2200, stock: 14 },
+  { slug: 'baptism-favor-bag', category: 'baptism', name: JSON.stringify({ pt: 'Saco de Favor', fr: 'Sac Cadeau', en: 'Favor Bag', de: 'Geschenktasche' }), shortDescription: JSON.stringify({ pt: 'Saco com impressão personalizada', fr: 'Sac avec impression personnalisée', en: 'Bag with custom printing', de: 'Tasche mit benutzerdefiniertem Druck' }), longDescription: JSON.stringify({ pt: 'Saco de papel ou tecido impresso com nome e data do batizado.', fr: 'Sac en papier ou tissu imprimé avec nom et date du baptême.', en: 'Paper or fabric bag printed with name and baptism date.', de: 'Papier- oder Stofftasche mit Namen und Taufdatum bedruckt.' }), priceCents: 1800, stock: 25 },
+  { slug: 'baptism-bible-cover', category: 'baptism', name: JSON.stringify({ pt: 'Capa de Bíblia', fr: 'Couverture Bible', en: 'Bible Cover', de: 'Bibelumschlag' }), shortDescription: JSON.stringify({ pt: 'Capa de couro gravada', fr: 'Couverture en cuir gravée', en: 'Engraved leather cover', de: 'Gravierter Lederumschlag' }), longDescription: JSON.stringify({ pt: 'Capa de bíblia em couro com gravação personalizada do nome.', fr: 'Couverture de bible en cuir avec gravure personnalisée du nom.', en: 'Leather bible cover with personalized name engraving.', de: 'Leder-Bibelumschlag mit personalisierter Namengravur.' }), priceCents: 3500, stock: 7 },
+  { slug: 'baptism-plaque-wall', category: 'baptism', name: JSON.stringify({ pt: 'Placa de Parede', fr: 'Plaque Murale', en: 'Wall Plaque', de: 'Wandplakette' }), shortDescription: JSON.stringify({ pt: 'Placa gravada para quarto', fr: 'Plaque gravée pour chambre', en: 'Plaque for bedroom', de: 'Plakette für Schlafzimmer' }), longDescription: JSON.stringify({ pt: 'Placa de madeira com gravação do nome e data do batizado.', fr: 'Plaque en bois avec gravure du nom et date du baptême.', en: 'Wooden plaque with engraved name and baptism date.', de: 'Holzplakette mit graviertem Namen und Taufdatum.' }), priceCents: 2800, stock: 10, featured: true },
 
-  // ============== CORPORATE (10) ==============
-  {
-    slug: 'canetas-personalizadas-premium',
-    category: 'corporate',
-    name: L('Stylos Premium Gravés', 'Premium Engraved Pens'),
-    short: L('Stylos de luxe avec gravure laser', 'Luxury pens with laser engraving'),
-    long: L(
-      'Stylos en métal brossé avec gravure laser de votre logo. Présentation en boîte cadeau élégante. Idéal pour cadeaux d\'affaires.',
-      'Brushed metal pens with laser-engraved logo. Presented in an elegant gift box. Perfect for business gifts.',
-    ),
-    priceCents: 3450, stock: 100, featured: true,
-  },
-  {
-    slug: 'pastas-corporativas-gravadas',
-    category: 'corporate',
-    name: L('Pochettes & Classeurs Gravés', 'Engraved Folders & Files'),
-    short: L('Classeurs cuir avec logo gravé', 'Leather folders with engraved logo'),
-    long: L(
-      'Classeurs en cuir véritable ou simili-cuir avec gravure du logo de votre entreprise. Plusieurs formats disponibles.',
-      'Genuine or faux leather folders with your company logo engraved. Multiple formats available.',
-    ),
-    priceCents: 6500, stock: 40,
-  },
-  {
-    slug: 'trofeus-corporativos',
-    category: 'corporate',
-    name: L('Trophées Corporate', 'Corporate Trophies'),
-    short: L('Trophées sur mesure en acrylique', 'Custom acrylic trophies'),
-    long: L(
-      'Trophées en acrylique massif découpés et gravés au laser. Idéal pour récompenses, anniversaires d\'entreprise ou événements.',
-      'Solid acrylic trophies, laser-cut and engraved. Ideal for awards, company anniversaries or events.',
-    ),
-    priceCents: 8900, stock: 30, featured: true,
-  },
-  {
-    slug: 'placas-homenagem',
-    category: 'corporate',
-    name: L('Plaques d\'Honneur', 'Award Plaques'),
-    short: L('Plaques commémoratives élégantes', 'Elegant commemorative plaques'),
-    long: L(
-      'Plaques en bois, métal ou acrylique avec gravure personnalisée. Pour récompenser, remercier ou commémorer.',
-      'Wood, metal or acrylic plaques with personalised engraving. To award, thank or commemorate.',
-    ),
-    priceCents: 5500, stock: 35,
-  },
-  {
-    slug: 'pendrives-personalizados',
-    category: 'corporate',
-    name: L('Clés USB Personnalisées', 'Personalised USB Drives'),
-    short: L('Clés USB avec logo gravé', 'USB drives with engraved logo'),
-    long: L(
-      'Clés USB en bois, métal ou cuir avec gravure laser de votre logo. Capacités de 16 Go à 128 Go.',
-      'Wood, metal or leather USB drives with laser-engraved logo. Capacities from 16 GB to 128 GB.',
-    ),
-    priceCents: 2800, stock: 80,
-  },
-  {
-    slug: 'mochilas-corporativas',
-    category: 'corporate',
-    name: L('Sacs à Dos Corporate', 'Corporate Backpacks'),
-    short: L('Sacs à dos avec logo brodé', 'Backpacks with embroidered logo'),
-    long: L(
-      'Sacs à dos professionnels avec broderie ou impression du logo. Plusieurs coloris et formats disponibles.',
-      'Professional backpacks with embroidered or printed logo. Multiple colours and sizes available.',
-    ),
-    priceCents: 7900, stock: 25,
-  },
-  {
-    slug: 'bones-corporativos',
-    category: 'corporate',
-    name: L('Casquettes Personnalisées', 'Personalised Caps'),
-    short: L('Casquettes avec logo brodé', 'Caps with embroidered logo'),
-    long: L(
-      'Casquettes de qualité avec broderie 3D du logo. Plusieurs coloris, ajustement universel.',
-      'Quality caps with 3D-embroidered logo. Multiple colours, universal fit.',
-    ),
-    priceCents: 1990, stock: 120,
-  },
-  {
-    slug: 'garrafas-isotermicas-corporate',
-    category: 'corporate',
-    name: L('Bouteilles Isothermes Corporate', 'Corporate Insulated Bottles'),
-    short: L('Bouteilles thermos avec logo', 'Thermos bottles with logo'),
-    long: L(
-      'Bouteilles isothermes en acier inoxydable double paroi. Gravure laser du logo. Maintien chaud/froid 12h.',
-      'Double-wall stainless steel insulated bottles. Laser-engraved logo. Keeps hot/cold for 12h.',
-    ),
-    priceCents: 3290, stock: 70,
-  },
-  {
-    slug: 'mousepads-personalizados',
-    category: 'corporate',
-    name: L('Tapis de Souris Personnalisés', 'Personalised Mouse Pads'),
-    short: L('Mousepads avec impression sur mesure', 'Mouse pads with custom print'),
-    long: L(
-      'Tapis de souris avec impression sublimation pleine couleur. Plusieurs formats : standard, XL, gaming.',
-      'Mouse pads with full-colour sublimation print. Multiple sizes: standard, XL, gaming.',
-    ),
-    priceCents: 1490, stock: 150,
-  },
-  {
-    slug: 'kit-executivo-completo',
-    category: 'corporate',
-    name: L('Kit Exécutif Complet', 'Complete Executive Kit'),
-    short: L('Coffret cadeau d\'affaires premium', 'Premium business gift set'),
-    long: L(
-      'Coffret prestige : stylo gravé, carnet en cuir, clé USB et bouteille isotherme. Présentation luxueuse, le tout personnalisé.',
-      'Prestige set: engraved pen, leather notebook, USB drive and insulated bottle. Luxurious presentation, all personalised.',
-    ),
-    priceCents: 14900, stock: 15, featured: true,
-  },
+  // Birthday - 10 produtos
+  { slug: 'birthday-invitation-custom', category: 'birthday', name: JSON.stringify({ pt: 'Convite de Aniversário', fr: 'Invitation Anniversaire', en: 'Birthday Invitation', de: 'Geburtstagseinladung' }), shortDescription: JSON.stringify({ pt: 'Convite personalizado gravado', fr: 'Invitation personnalisée gravée', en: 'Personalized engraved invitation', de: 'Personalisierte gravierte Einladung' }), longDescription: JSON.stringify({ pt: 'Convite de aniversário em papel premium com gravação personalizada.', fr: 'Invitation d\'anniversaire sur papier premium avec gravure personnalisée.', en: 'Birthday invitation on premium paper with personalized engraving.', de: 'Geburtstagseinladung auf hochwertigem Papier mit personalisierter Gravur.' }), priceCents: 2800, stock: 20, featured: true },
+  { slug: 'birthday-banner-personalized', category: 'birthday', name: JSON.stringify({ pt: 'Faixa de Aniversário', fr: 'Bannière Anniversaire', en: 'Birthday Banner', de: 'Geburtstagsbanner' }), shortDescription: JSON.stringify({ pt: 'Faixa impressa personalizada', fr: 'Bannière imprimée personnalisée', en: 'Custom printed banner', de: 'Benutzerdefiniertes gedrucktes Banner' }), longDescription: JSON.stringify({ pt: 'Faixa de pano impresso com nome e data de aniversário.', fr: 'Bannière en tissu imprimé avec nom et date d\'anniversaire.', en: 'Printed fabric banner with name and birthday date.', de: 'Bedrucktes Stoffbanner mit Namen und Geburtstagsdatum.' }), priceCents: 1600, stock: 18 },
+  { slug: 'birthday-cake-topper-name', category: 'birthday', name: JSON.stringify({ pt: 'Topo de Bolo com Nome', fr: 'Décoration Gâteau Nom', en: 'Cake Topper with Name', de: 'Tortendekoration mit Namen' }), shortDescription: JSON.stringify({ pt: 'Topo 3D ou gravado', fr: 'Décoration 3D ou gravée', en: '3D or engraved topper', de: '3D oder gravierte Dekoration' }), longDescription: JSON.stringify({ pt: 'Topo de bolo impresso em 3D ou em madeira com o nome personalizado.', fr: 'Décoration gâteau imprimée en 3D ou en bois avec le nom personnalisé.', en: '3D printed or wooden cake topper with personalized name.', de: '3D-gedruckte oder Holz-Tortendekoration mit personalisiertem Namen.' }), priceCents: 2500, stock: 15 },
+  { slug: 'birthday-party-gift-bag', category: 'birthday', name: JSON.stringify({ pt: 'Saco de Presentes', fr: 'Sac Cadeau Fête', en: 'Party Gift Bag', de: 'Party-Geschenktasche' }), shortDescription: JSON.stringify({ pt: 'Saco impresso personalizado', fr: 'Sac imprimé personnalisé', en: 'Custom printed bag', de: 'Benutzerdefinierte gedruckte Tasche' }), longDescription: JSON.stringify({ pt: 'Saco de papel impresso com nome da criança e motivos de festa.', fr: 'Sac en papier imprimé avec le nom de l\'enfant et motifs de fête.', en: 'Paper bag printed with child\'s name and party designs.', de: 'Papiertasche mit dem Namen des Kindes und Partymotiven bedruckt.' }), priceCents: 1500, stock: 30 },
+  { slug: 'birthday-thank-you-card', category: 'birthday', name: JSON.stringify({ pt: 'Cartão de Agradecimento', fr: 'Carte de Remerciement', en: 'Thank You Card', de: 'Danksagungskarte' }), shortDescription: JSON.stringify({ pt: 'Cartões impressos personalizados', fr: 'Cartes imprimées personnalisées', en: 'Custom printed cards', de: 'Benutzerdefinierte gedruckte Karten' }), longDescription: JSON.stringify({ pt: 'Cartões de agradecimento impressos com design personalizado.', fr: 'Cartes de remerciement imprimées avec design personnalisé.', en: 'Thank you cards printed with custom design for guests.', de: 'Dankesagungskarten mit benutzerdefiniertem Design bedruckt.' }), priceCents: 1800, stock: 35 },
+  { slug: 'birthday-milestone-board', category: 'birthday', name: JSON.stringify({ pt: 'Placa de Marcos', fr: 'Plaque Étapes', en: 'Milestone Board', de: 'Meilenstein-Tafel' }), shortDescription: JSON.stringify({ pt: 'Placa gravada para fotos', fr: 'Plaque gravée pour photos', en: 'Engraved photo plaque', de: 'Gravierte Foto-Plakette' }), longDescription: JSON.stringify({ pt: 'Placa de madeira gravada com marcos de idade para fotos da festa.', fr: 'Plaque en bois gravée avec étapes d\'âge pour photos de fête.', en: 'Wooden plaque engraved with age milestones for party photos.', de: 'Holzplakette graviert mit Altersmeilensteinen für Partyfotos.' }), priceCents: 2200, stock: 12 },
+  { slug: 'birthday-personalized-mug', category: 'birthday', name: JSON.stringify({ pt: 'Caneca Personalizada', fr: 'Mug Personnalisé', en: 'Personalized Mug', de: 'Personalisierte Tasse' }), shortDescription: JSON.stringify({ pt: 'Caneca com foto e nome', fr: 'Mug avec photo et nom', en: 'Mug with photo and name', de: 'Tasse mit Foto und Namen' }), longDescription: JSON.stringify({ pt: 'Caneca de cerâmica com impressão UV de foto e nome personalizado.', fr: 'Mug en céramique avec impression UV de photo et nom personnalisé.', en: 'Ceramic mug with UV-printed photo and personalized name.', de: 'Keramiktasse mit UV-gedrucktem Foto und personalisiertem Namen.' }), priceCents: 1500, stock: 20, featured: true },
+  { slug: 'birthday-t-shirt-print', category: 'birthday', name: JSON.stringify({ pt: 'T-Shirt Personalizada', fr: 'T-Shirt Personnalisé', en: 'Personalized T-Shirt', de: 'Personalisiertes T-Shirt' }), shortDescription: JSON.stringify({ pt: 'T-shirt com sublimação', fr: 'T-shirt avec sublimation', en: 'T-shirt with sublimation', de: 'T-Shirt mit Sublimation' }), longDescription: JSON.stringify({ pt: 'T-shirt 100% algodão com impressão UV personalizada com nome.', fr: 'T-shirt 100% coton avec impression UV personnalisée avec nom.', en: '100% cotton t-shirt with custom UV printing with name.', de: '100% Baumwoll-T-Shirt mit benutzerdefiniertem UV-Druck mit Namen.' }), priceCents: 1800, stock: 16 },
+  { slug: 'birthday-keepsake-box', category: 'birthday', name: JSON.stringify({ pt: 'Caixa de Recordações', fr: 'Boîte Souvenir', en: 'Keepsake Box', de: 'Erinnerungsbox' }), shortDescription: JSON.stringify({ pt: 'Caixa de madeira gravada', fr: 'Boîte en bois gravée', en: 'Engraved wooden box', de: 'Gravierte Holzbox' }), longDescription: JSON.stringify({ pt: 'Caixa de madeira gravada com nome e data de aniversário.', fr: 'Boîte en bois gravée avec nom et date d\'anniversaire.', en: 'Wooden box engraved with name and birthday date to keep memories.', de: 'Holzbox graviert mit Namen und Geburtstagsdatum zum Aufbewahren.' }), priceCents: 3200, stock: 9 },
 
-  // ============== WEDDING (10) ==============
-  {
-    slug: 'caixas-casamento-personalizadas',
-    category: 'wedding',
-    name: L('Boîtes Mariage Personnalisées', 'Personalised Wedding Boxes'),
-    short: L('Boîtes à dragées élégantes', 'Elegant favour boxes'),
-    long: L(
-      'Boîtes à dragées raffinées avec impression métallisée or, argent ou rose-gold. Personnalisation avec prénoms et date.',
-      'Refined favour boxes with gold, silver or rose-gold metallic print. Personalised with names and date.',
-    ),
-    priceCents: 1750, stock: 200, featured: true,
-  },
-  {
-    slug: 'lembrancas-acrilico-casamento',
-    category: 'wedding',
-    name: L('Souvenirs Acrylique Mariage', 'Wedding Acrylic Keepsakes'),
-    short: L('Plaques acryliques premium gravées', 'Premium engraved acrylic plaques'),
-    long: L(
-      'Plaques acryliques épaisses, polies et gravées au laser. Designs floraux, géométriques ou minimalistes au choix.',
-      'Thick polished acrylic plaques, laser-engraved. Choice of floral, geometric or minimalist designs.',
-    ),
-    priceCents: 2890, stock: 150,
-  },
-  {
-    slug: 'garrafas-vinho-casamento',
-    category: 'wedding',
-    name: L('Bouteilles de Vin Personnalisées', 'Personalised Wine Bottles'),
-    short: L('Étiquettes vin sur mesure', 'Custom wine labels'),
-    long: L(
-      'Étiquettes vin imprimées avec photo, prénoms, date et message. Disponible aussi avec gravure directe sur la bouteille.',
-      'Wine labels printed with photo, names, date and message. Also available with direct bottle engraving.',
-    ),
-    priceCents: 2400, stock: 100,
-  },
-  {
-    slug: 'almofadas-decorativas-casamento',
-    category: 'wedding',
-    name: L('Coussins Décoratifs Mariage', 'Wedding Decorative Cushions'),
-    short: L('Coussins porte-alliances personnalisés', 'Personalised ring cushions'),
-    long: L(
-      'Coussins porte-alliances en satin ou velours avec broderie sur mesure. Dentelle et perles disponibles.',
-      'Satin or velvet ring cushions with custom embroidery. Lace and pearl options available.',
-    ),
-    priceCents: 5900, stock: 30,
-  },
-  {
-    slug: 'lencos-seda-personalizados',
-    category: 'wedding',
-    name: L('Foulards Soie Personnalisés', 'Personalised Silk Scarves'),
-    short: L('Foulards en soie avec impression', 'Silk scarves with custom print'),
-    long: L(
-      'Foulards en soie naturelle imprimés avec design exclusif. Cadeau précieux pour témoins ou demoiselles d\'honneur.',
-      'Natural silk scarves printed with an exclusive design. A precious gift for witnesses or bridesmaids.',
-    ),
-    priceCents: 8900, stock: 20,
-  },
-  {
-    slug: 'velas-casamento',
-    category: 'wedding',
-    name: L('Bougies Mariage', 'Wedding Candles'),
-    short: L('Bougies cérémonie personnalisées', 'Personalised ceremony candles'),
-    long: L(
-      'Bougies de cérémonie en cire végétale avec étiquettes personnalisées. Idéal pour la cérémonie ou en cadeau invité.',
-      'Vegetable-wax ceremony candles with personalised labels. Ideal for the ceremony or as guest favours.',
-    ),
-    priceCents: 1990, stock: 100,
-  },
-  {
-    slug: 'livro-visitas-3d',
-    category: 'wedding',
-    name: L('Livre d\'Or 3D', '3D Guest Book'),
-    short: L('Livre d\'or imprimé 3D unique', 'Unique 3D-printed guest book'),
-    long: L(
-      'Livre d\'or avec couverture imprimée en 3D, prénoms en relief et finition haut de gamme. Pages crème de qualité.',
-      'Guest book with 3D-printed cover, raised names and premium finish. Quality cream pages.',
-    ),
-    priceCents: 9500, stock: 25, featured: true,
-  },
-  {
-    slug: 'marcadores-tematicos-casamento',
-    category: 'wedding',
-    name: L('Marque-places Thématiques', 'Themed Place Cards'),
-    short: L('Marque-places personnalisés invités', 'Personalised guest place cards'),
-    long: L(
-      'Marque-places en papier de luxe ou bois découpé. Prénom de chaque invité imprimé ou gravé, design assorti à votre thème.',
-      'Place cards in luxury paper or cut wood. Each guest\'s name printed or engraved, design matching your theme.',
-    ),
-    priceCents: 290, stock: 500,
-  },
-  {
-    slug: 'caixas-presente-elegantes',
-    category: 'wedding',
-    name: L('Coffrets Cadeaux Élégants', 'Elegant Gift Boxes'),
-    short: L('Coffrets pour témoins et famille', 'Boxes for witnesses and family'),
-    long: L(
-      'Coffrets cadeaux raffinés contenant souvenirs, dragées et message personnalisé. Présentation soignée digne d\'un cadeau précieux.',
-      'Refined gift boxes with keepsakes, sweets and personalised message. Polished presentation worthy of a precious gift.',
-    ),
-    priceCents: 6900, stock: 35,
-  },
-  {
-    slug: 'fotografia-impressa-casamento',
-    category: 'wedding',
-    name: L('Service Photo Imprimée', 'Printed Photo Service'),
-    short: L('Photos imprimées sur supports variés', 'Photos printed on various media'),
-    long: L(
-      'Vos photos préférées imprimées sur acrylique, bois, métal ou toile. Finition mate, brillante ou texturée. Plusieurs formats.',
-      'Your favourite photos printed on acrylic, wood, metal or canvas. Matte, glossy or textured finish. Multiple sizes.',
-    ),
-    priceCents: 4500, stock: 60,
-  },
+  // Travel Souvenirs - 10 produtos
+  { slug: 'travel-map-scratch', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Mapa Mundi para Raspar', fr: 'Carte du Monde à Gratter', en: 'Scratch Off World Map', de: 'Rubbel-Weltkarte' }), shortDescription: JSON.stringify({ pt: 'Mapa para raspar com os destinos visitados', fr: 'Carte à gratter pour marquer les voyages', en: 'Map to scratch and mark destinations', de: 'Kratzkarte zur Markierung bereister Länder' }), longDescription: JSON.stringify({ pt: 'Mapa mundi em acrílico para raspar os destinos visitados e guardar recordações.', fr: 'Carte du monde acrylique à gratter pour marquer vos voyages.', en: 'Acrylic world map to scratch and track your travels.', de: 'Acryl-Weltkarte zum Kratzen und Festhalten bereister Länder.' }), priceCents: 2800, stock: 14, featured: true },
+  { slug: 'travel-passport-cover', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Capa de Passaporte', fr: 'Housse de Passeport', en: 'Passport Cover', de: 'Reisepasshülle' }), shortDescription: JSON.stringify({ pt: 'Capa de couro para passaporte', fr: 'Housse en cuir pour passeport', en: 'Leather passport holder', de: 'Leder-Reisepasshülle' }), longDescription: JSON.stringify({ pt: 'Capa de couro gravada com iniciais para passaporte.', fr: 'Housse de passeport en cuir avec initiales gravées.', en: 'Leather passport cover with engraved initials.', de: 'Leder-Reisepasshülle mit gravierten Initialen.' }), priceCents: 3500, stock: 10 },
+  { slug: 'travel-luggage-tag', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Etiqueta de Bagagem', fr: 'Étiquette de Bagage', en: 'Luggage Tag', de: 'Gepäckanhänger' }), shortDescription: JSON.stringify({ pt: 'Etiqueta personalizada de couro', fr: 'Étiquette en cuir personnalisée', en: 'Custom leather tag', de: 'Personalisierter Leder-Anhänger' }), longDescription: JSON.stringify({ pt: 'Etiqueta de bagagem em couro com gravação personalizada do nome.', fr: 'Étiquette de bagage en cuir avec gravure du nom personnalisée.', en: 'Leather luggage tag with personalized name engraving.', de: 'Leder-Gepäckanhänger mit personalisierter Namengravur.' }), priceCents: 1800, stock: 20 },
+  { slug: 'travel-city-postcard-set', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Set de Postais de Cidades', fr: 'Ensemble de Cartes Postales Villes', en: 'City Postcard Set', de: 'Stadtpostkarten-Set' }), shortDescription: JSON.stringify({ pt: 'Pack com 10 postais de cidades', fr: 'Pack avec 10 cartes postales de villes', en: 'Pack of 10 city postcards', de: 'Set von 10 Stadtpostkarten' }), longDescription: JSON.stringify({ pt: 'Conjunto com 10 postais ilustrados de diferentes cidades do mundo.', fr: 'Ensemble de 10 cartes postales illustrées de villes du monde.', en: 'Set of 10 illustrated postcards featuring world cities.', de: 'Set mit 10 illustrierten Postkarten von Weltstädten.' }), priceCents: 1500, stock: 25 },
+  { slug: 'travel-plane-ticket-holder', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Suporte para Bilhetes', fr: 'Porte-Billets d\'Avion', en: 'Ticket Holder', de: 'Flugschein-Halter' }), shortDescription: JSON.stringify({ pt: 'Organizador para bilhetes e passaportes', fr: 'Organisateur de billets et passeports', en: 'Organizer for tickets and documents', de: 'Organizer für Tickets und Dokumente' }), longDescription: JSON.stringify({ pt: 'Organizador em couro para guardar bilhetes, passaportes e documentos de viagem.', fr: 'Organisateur en cuir pour billets, passeports et documents de voyage.', en: 'Leather organizer for tickets, passports and travel documents.', de: 'Leder-Organizer für Tickets, Pässe und Reisedokumente.' }), priceCents: 4500, stock: 8 },
+  { slug: 'travel-destination-journal', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Diário de Viagens', fr: 'Journal de Voyage', en: 'Travel Journal', de: 'Reisetagebuch' }), shortDescription: JSON.stringify({ pt: 'Caderno para registar aventuras', fr: 'Carnet pour consigner vos aventures', en: 'Notebook for travel memories', de: 'Notizbuch für Reiseerinnerungen' }), longDescription: JSON.stringify({ pt: 'Diário encadernado para guardar memórias das suas viagens e aventuras.', fr: 'Journal relié pour conserver les souvenirs de vos voyages.', en: 'Bound journal to preserve your travel memories and stories.', de: 'Gebundenes Tagebuch zur Aufbewahrung von Reiseerinnerungen.' }), priceCents: 2500, stock: 12, featured: true },
+  { slug: 'travel-money-belt', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Cinto de Dinheiro', fr: 'Ceinture Porte-Monnaie', en: 'Money Belt', de: 'Geldgürtel' }), shortDescription: JSON.stringify({ pt: 'Cinto de segurança para documentos', fr: 'Ceinture de sécurité pour documents', en: 'Security belt for documents', de: 'Sicherheitsgürtel für Dokumente' }), longDescription: JSON.stringify({ pt: 'Cinto de segurança em nylon para guardar dinheiro e documentos durante viagens.', fr: 'Ceinture de sécurité en nylon pour l\'argent et les documents.', en: 'Nylon security belt to protect money and documents while traveling.', de: 'Nylon-Sicherheitsgürtel zum Schutz von Geld und Dokumenten.' }), priceCents: 2200, stock: 16 },
+  { slug: 'travel-photo-book-custom', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Álbum de Fotos Personalizado', fr: 'Album Photos Personnalisé', en: 'Custom Photo Album', de: 'Personalisiertes Fotoalbum' }), shortDescription: JSON.stringify({ pt: 'Álbum com capa de couro gravada', fr: 'Album avec couverture en cuir gravée', en: 'Album with engraved leather cover', de: 'Album mit graviertem Ledercover' }), longDescription: JSON.stringify({ pt: 'Álbum de fotos em couro com gravação personalizada para guardar memórias de viagens.', fr: 'Album photos en cuir avec gravure personnalisée pour vos souvenirs.', en: 'Leather photo album with engraved cover for travel memories.', de: 'Leder-Fotoalbum mit graviertem Cover für Reiseerinnerungen.' }), priceCents: 5500, stock: 6 },
+  { slug: 'travel-city-coordinates-sign', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Placa de Coordenadas', fr: 'Plaque Coordonnées', en: 'Coordinates Sign', de: 'Koordinaten-Schild' }), shortDescription: JSON.stringify({ pt: 'Placa com coordenadas de cidades', fr: 'Plaque avec coordonnées de villes', en: 'Sign with city coordinates', de: 'Schild mit Stadtkoordinaten' }), longDescription: JSON.stringify({ pt: 'Placa de madeira gravada com as coordenadas de cidades ou locais especiais.', fr: 'Plaque en bois gravée avec les coordonnées de lieux spéciaux.', en: 'Wooden sign engraved with coordinates of special travel destinations.', de: 'Holzschild graviert mit Koordinaten besonderer Reiseziele.' }), priceCents: 2800, stock: 10 },
+  { slug: 'travel-bottle-sleeve', category: 'travel_souvenirs', name: JSON.stringify({ pt: 'Protetor de Garrafa', fr: 'Housse Bouteille', en: 'Bottle Sleeve', de: 'Flaschenmanschette' }), shortDescription: JSON.stringify({ pt: 'Manga isotérmica personalizada', fr: 'Housse isotherme personnalisée', en: 'Custom insulated sleeve', de: 'Personalisierte Isoliermanschette' }), longDescription: JSON.stringify({ pt: 'Manga isotérmica em neopreno com gravação para garrafas de água durante viagens.', fr: 'Manchon isotherme en néoprène avec gravure personnalisée.', en: 'Insulated neoprene sleeve with custom engraving for water bottles.', de: 'Isolierte Neopren-Manschette mit personalisierter Gravur für Flaschen.' }), priceCents: 1500, stock: 22 },
 
-  // ============== BAPTISM (10) ==============
-  {
-    slug: 'caixas-batizado',
-    category: 'baptism',
-    name: L('Boîtes Baptême', 'Baptism Boxes'),
-    short: L('Boîtes à dragées baptême', 'Baptism favour boxes'),
-    long: L(
-      'Boîtes à dragées élégantes avec croix, ange ou design personnalisé. Impression UV de qualité, finitions soignées.',
-      'Elegant favour boxes with cross, angel or custom design. Quality UV print, polished finish.',
-    ),
-    priceCents: 1690, stock: 150, featured: true,
-  },
-  {
-    slug: 'velas-batizado',
-    category: 'baptism',
-    name: L('Bougies Baptême', 'Baptism Candles'),
-    short: L('Bougies cérémonie sur mesure', 'Custom ceremony candles'),
-    long: L(
-      'Bougies de baptême décorées avec prénom de l\'enfant, date et symboles religieux. Cire pure, présentation soignée.',
-      'Baptism candles decorated with child\'s name, date and religious symbols. Pure wax, polished presentation.',
-    ),
-    priceCents: 2490, stock: 80,
-  },
-  {
-    slug: 'bolsinhas-batizado',
-    category: 'baptism',
-    name: L('Pochettes Baptême', 'Baptism Pouches'),
-    short: L('Petites pochettes pour invités', 'Small pouches for guests'),
-    long: L(
-      'Pochettes en tissu doux avec impression sublimation. Idéales pour offrir dragées ou petits souvenirs aux invités.',
-      'Soft fabric pouches with sublimation print. Ideal for sweets or small keepsakes for guests.',
-    ),
-    priceCents: 890, stock: 200,
-  },
-  {
-    slug: 'lembrancas-acrilico-batizado',
-    category: 'baptism',
-    name: L('Souvenirs Acrylique Baptême', 'Baptism Acrylic Keepsakes'),
-    short: L('Plaques souvenir baptême', 'Baptism keepsake plaques'),
-    long: L(
-      'Plaques en acrylique avec gravure du prénom, date et symboles religieux. Souvenir durable et élégant.',
-      'Acrylic plaques engraved with name, date and religious symbols. A durable, elegant keepsake.',
-    ),
-    priceCents: 1390, stock: 100,
-  },
-  {
-    slug: 'lencos-batizado',
-    category: 'baptism',
-    name: L('Mouchoirs Personnalisés', 'Personalised Handkerchiefs'),
-    short: L('Mouchoirs en lin brodés', 'Embroidered linen handkerchiefs'),
-    long: L(
-      'Mouchoirs en lin fin avec broderie du prénom et de la date. Cadeau traditionnel et précieux.',
-      'Fine linen handkerchiefs embroidered with name and date. A traditional, precious gift.',
-    ),
-    priceCents: 1290, stock: 80,
-  },
-  {
-    slug: 'biscoitos-decorados-batizado',
-    category: 'baptism',
-    name: L('Biscuits Décorés Baptême', 'Decorated Baptism Cookies'),
-    short: L('Biscuits glaçage royal sur mesure', 'Custom royal-icing cookies'),
-    long: L(
-      'Biscuits artisanaux décorés à la main aux couleurs et motifs du baptême. Emballage individuel possible.',
-      'Handcrafted cookies decorated by hand in baptism colours and motifs. Individual wrapping available.',
-    ),
-    priceCents: 320, stock: 250,
-  },
-  {
-    slug: 'fitas-personalizadas-batizado',
-    category: 'baptism',
-    name: L('Rubans Personnalisés', 'Personalised Ribbons'),
-    short: L('Rubans imprimés avec prénom', 'Ribbons printed with name'),
-    long: L(
-      'Rubans satin de qualité avec impression du prénom et date. Idéal pour décoration ou emballage cadeaux.',
-      'Quality satin ribbons printed with name and date. Ideal for decoration or gift wrapping.',
-    ),
-    priceCents: 490, stock: 300,
-  },
-  {
-    slug: 'anjos-decorativos',
-    category: 'baptism',
-    name: L('Anges Décoratifs', 'Decorative Angels'),
-    short: L('Statuettes anges personnalisées', 'Personalised angel statuettes'),
-    long: L(
-      'Statuettes d\'anges en résine ou acrylique avec gravure personnalisée. Souvenir religieux délicat et raffiné.',
-      'Resin or acrylic angel statuettes with personalised engraving. A delicate, refined religious keepsake.',
-    ),
-    priceCents: 2890, stock: 50,
-  },
-  {
-    slug: 'caixas-doces-batizado',
-    category: 'baptism',
-    name: L('Boîtes avec Douceurs', 'Sweet Treat Boxes'),
-    short: L('Coffrets garnis personnalisés', 'Personalised filled boxes'),
-    long: L(
-      'Coffrets personnalisés contenant dragées, biscuits décorés et petits souvenirs. Présentation soignée.',
-      'Personalised boxes filled with sweets, decorated cookies and small keepsakes. Polished presentation.',
-    ),
-    priceCents: 3500, stock: 60,
-  },
-  {
-    slug: 'kit-batizado-completo',
-    category: 'baptism',
-    name: L('Kit Baptême Complet', 'Complete Baptism Kit'),
-    short: L('Coffret tout-en-un baptême', 'All-in-one baptism set'),
-    long: L(
-      'Coffret prestige : boîte personnalisée, bougie, mouchoir brodé, ange décoratif et biscuits. Le coffret idéal.',
-      'Premium set: personalised box, candle, embroidered handkerchief, decorative angel and cookies. The ideal kit.',
-    ),
-    priceCents: 7900, stock: 25, featured: true,
-  },
+  // Kadoa Products - 10 produtos
+  { slug: 'kadoa-gift-voucher-card', category: 'kadoa_products', name: JSON.stringify({ pt: 'Cartão Vale Presente', fr: 'Carte Cadeau', en: 'Gift Voucher Card', de: 'Gutscheinkarte' }), shortDescription: JSON.stringify({ pt: 'Cartão vale para qualquer produto', fr: 'Carte cadeau pour tous produits', en: 'Card redeemable for any product', de: 'Karte für jeden Artikel' }), longDescription: JSON.stringify({ pt: 'Cartão presenteável com montante à escolha para compras futuras na Kadoa.', fr: 'Carte cadeau de Kadoa avec montant à choisir.', en: 'Gift card redeemable for any Kadoa product or service.', de: 'Gutscheinkarte für beliebige Kadoa Produkte und Dienstleistungen.' }), priceCents: 5000, stock: 50 },
+  { slug: 'kadoa-branded-box', category: 'kadoa_products', name: JSON.stringify({ pt: 'Caixa Kadoa Premium', fr: 'Boîte Premium Kadoa', en: 'Kadoa Premium Box', de: 'Kadoa Premium-Box' }), shortDescription: JSON.stringify({ pt: 'Caixa de presenteação luxuosa', fr: 'Boîte de présentation luxe', en: 'Luxury presentation box', de: 'Luxus-Präsentationsbox' }), longDescription: JSON.stringify({ pt: 'Caixa de apresentação em papel premium com logo e design exclusivo Kadoa.', fr: 'Boîte de présentation en papier premium avec logo Kadoa.', en: 'Premium paper presentation box with Kadoa logo and exclusive design.', de: 'Premium-Karton-Präsentationsbox mit Kadoa-Logo und exklusivem Design.' }), priceCents: 800, stock: 100, featured: true },
+  { slug: 'kadoa-tissue-paper', category: 'kadoa_products', name: JSON.stringify({ pt: 'Papel de Seda Kadoa', fr: 'Papier de Soie Kadoa', en: 'Kadoa Tissue Paper', de: 'Kadoa-Seidenpapier' }), shortDescription: JSON.stringify({ pt: 'Papel de seda personalizado', fr: 'Papier de soie personnalisé', en: 'Custom tissue paper', de: 'Personalisiertes Seidenpapier' }), longDescription: JSON.stringify({ pt: 'Papel de seda em cores Kadoa para embrulho elegante de presentes.', fr: 'Papier de soie aux couleurs Kadoa pour emballage de cadeaux.', en: 'Tissue paper in Kadoa colors for elegant gift wrapping.', de: 'Seidenpapier in Kadoa-Farben zum eleganten Geschenkverpacken.' }), priceCents: 1200, stock: 80 },
+  { slug: 'kadoa-branded-ribbon', category: 'kadoa_products', name: JSON.stringify({ pt: 'Fita Impressa Kadoa', fr: 'Ruban Imprimé Kadoa', en: 'Kadoa Printed Ribbon', de: 'Kadoa-Druckband' }), shortDescription: JSON.stringify({ pt: 'Fita com logo e padrão Kadoa', fr: 'Ruban avec logo et motif Kadoa', en: 'Ribbon with Kadoa logo', de: 'Band mit Kadoa-Logo' }), longDescription: JSON.stringify({ pt: 'Fita de seda impressa com padrão e logo exclusivo Kadoa para embalagem.', fr: 'Ruban de soie imprimé avec le motif et logo exclusif Kadoa.', en: 'Silk ribbon printed with exclusive Kadoa pattern and logo.', de: 'Seidenband mit exklusivem Kadoa-Muster und Logo.' }), priceCents: 1500, stock: 60 },
+  { slug: 'kadoa-sticker-sheet', category: 'kadoa_products', name: JSON.stringify({ pt: 'Folha de Adesivos', fr: 'Feuille d\'Autocollants', en: 'Sticker Sheet', de: 'Aufkleber-Blatt' }), shortDescription: JSON.stringify({ pt: 'Adesivos com designs Kadoa', fr: 'Autocollants avec designs Kadoa', en: 'Stickers with Kadoa designs', de: 'Aufkleber mit Kadoa-Designs' }), longDescription: JSON.stringify({ pt: 'Folha com 20 adesivos coloridos com logo e padrões exclusivos Kadoa.', fr: 'Feuille avec 20 autocollants avec logo et motifs Kadoa.', en: 'Sheet of 20 colorful stickers with Kadoa logo and patterns.', de: 'Blatt mit 20 farbigen Aufklebern mit Kadoa-Logo und -Mustern.' }), priceCents: 600, stock: 120 },
+  { slug: 'kadoa-thank-you-card-pack', category: 'kadoa_products', name: JSON.stringify({ pt: 'Pack de Cartões Obrigado', fr: 'Pack Cartes Remerciement', en: 'Thank You Card Pack', de: 'Dankeskartenpack' }), shortDescription: JSON.stringify({ pt: 'Conjunto com 10 cartões', fr: 'Ensemble de 10 cartes', en: 'Set of 10 cards', de: 'Set mit 10 Karten' }), longDescription: JSON.stringify({ pt: 'Pack com 10 cartões de agradecimento impressos com design Kadoa.', fr: 'Pack de 10 cartes de remerciement imprimées avec design Kadoa.', en: 'Pack of 10 thank you cards printed with Kadoa design.', de: 'Pack mit 10 Dankskarten mit Kadoa-Design.' }), priceCents: 1800, stock: 40 },
+  { slug: 'kadoa-business-card-holder', category: 'kadoa_products', name: JSON.stringify({ pt: 'Suporte para Cartões Kadoa', fr: 'Porte-Cartes Kadoa', en: 'Kadoa Card Holder', de: 'Kadoa Kartenhalter' }), shortDescription: JSON.stringify({ pt: 'Suporte de madeira com logo', fr: 'Support en bois avec logo', en: 'Wooden holder with logo', de: 'Holzhalter mit Logo' }), longDescription: JSON.stringify({ pt: 'Suporte para cartões de visita em madeira com gravação do logo Kadoa.', fr: 'Support pour cartes de visite en bois avec logo Kadoa gravé.', en: 'Wooden business card holder with engraved Kadoa logo.', de: 'Holz-Kartenhalter mit graviertem Kadoa-Logo.' }), priceCents: 3200, stock: 15 },
+  { slug: 'kadoa-branded-sticker-label', category: 'kadoa_products', name: JSON.stringify({ pt: 'Etiquetas de Marca', fr: 'Étiquettes de Marque', en: 'Brand Labels', de: 'Markenetiketten' }), shortDescription: JSON.stringify({ pt: 'Etiquetas redondas com logo', fr: 'Étiquettes rondes avec logo', en: 'Round labels with logo', de: 'Runde Etiketten mit Logo' }), longDescription: JSON.stringify({ pt: 'Etiquetas adesivas redondas com logo Kadoa para selar presentes.', fr: 'Étiquettes adhésives rondes avec logo Kadoa pour sceller les cadeaux.', en: 'Round adhesive labels with Kadoa logo for sealing gifts.', de: 'Runde Etiketten mit Kadoa-Logo zum Versiegeln von Geschenken.' }), priceCents: 1000, stock: 200 },
+  { slug: 'kadoa-catalog-physical', category: 'kadoa_products', name: JSON.stringify({ pt: 'Catálogo em Papel', fr: 'Catalogue Papier', en: 'Paper Catalog', de: 'Papierkatalog' }), shortDescription: JSON.stringify({ pt: 'Catálogo impresso com todos os produtos', fr: 'Catalogue imprimé complet', en: 'Complete printed catalog', de: 'Vollständiger gedruckter Katalog' }), longDescription: JSON.stringify({ pt: 'Catálogo A4 impresso com apresentação de todos os produtos e serviços Kadoa.', fr: 'Catalogue A4 imprimé avec présentation de tous les produits Kadoa.', en: 'A4 printed catalog showcasing all Kadoa products and services.', de: 'A4-gedruckter Katalog mit allen Kadoa-Produkten und -Services.' }), priceCents: 2500, stock: 30, featured: true },
+  { slug: 'kadoa-branded-bag', category: 'kadoa_products', name: JSON.stringify({ pt: 'Bolsa de Papel Kadoa', fr: 'Sac Papier Kadoa', en: 'Kadoa Paper Bag', de: 'Kadoa-Papiertasche' }), shortDescription: JSON.stringify({ pt: 'Bolsa de papel impressa', fr: 'Sac en papier imprimé', en: 'Printed paper bag', de: 'Bedruckte Papiertasche' }), longDescription: JSON.stringify({ pt: 'Bolsa de papel kraft com impressão colorida do logo e padrão Kadoa.', fr: 'Sac en papier kraft avec logo et motif Kadoa imprimés.', en: 'Kraft paper bag with Kadoa logo and pattern printed.', de: 'Kraftpapiertasche mit gedrucktem Kadoa-Logo und -Muster.' }), priceCents: 1500, stock: 150 },
 
-  // ============== BIRTHDAY (10) ==============
-  {
-    slug: 'caixas-aniversario',
-    category: 'birthday',
-    name: L('Boîtes Anniversaire', 'Birthday Boxes'),
-    short: L('Boîtes cadeau personnalisées', 'Personalised gift boxes'),
-    long: L(
-      'Boîtes festives avec impression au thème souhaité (super-héros, princesses, animaux, etc.). Personnalisation prénom et âge.',
-      'Festive boxes printed with chosen theme (superheroes, princesses, animals, etc.). Personalised with name and age.',
-    ),
-    priceCents: 1490, stock: 150, featured: true,
-  },
-  {
-    slug: 'baloes-personalizados',
-    category: 'birthday',
-    name: L('Ballons Personnalisés', 'Personalised Balloons'),
-    short: L('Ballons imprimés sur mesure', 'Custom-printed balloons'),
-    long: L(
-      'Ballons latex ou aluminium avec impression du prénom, âge ou message. Plusieurs coloris et formats.',
-      'Latex or foil balloons printed with name, age or message. Multiple colours and sizes.',
-    ),
-    priceCents: 390, stock: 500,
-  },
-  {
-    slug: 'garrafas-aniversario',
-    category: 'birthday',
-    name: L('Bouteilles Anniversaire', 'Birthday Bottles'),
-    short: L('Bouteilles personnalisées festives', 'Festive personalised bottles'),
-    long: L(
-      'Bouteilles avec étiquettes personnalisées ou gravure laser. Boisson au choix : eau, jus, vin, champagne.',
-      'Bottles with personalised labels or laser engraving. Choice of drink: water, juice, wine, champagne.',
-    ),
-    priceCents: 1890, stock: 100,
-  },
-  {
-    slug: 'camisetas-personalizadas',
-    category: 'birthday',
-    name: L('T-shirts Personnalisés', 'Personalised T-shirts'),
-    short: L('T-shirts imprimés sur mesure', 'Custom-printed t-shirts'),
-    long: L(
-      'T-shirts coton avec impression sublimation ou flex. Designs personnalisés pour anniversaires, EVJF, EVG, etc.',
-      'Cotton t-shirts with sublimation or flex print. Custom designs for birthdays, hen/stag parties, etc.',
-    ),
-    priceCents: 2490, stock: 100,
-  },
-  {
-    slug: 'bones-aniversario',
-    category: 'birthday',
-    name: L('Casquettes Anniversaire', 'Birthday Caps'),
-    short: L('Casquettes festives personnalisées', 'Personalised festive caps'),
-    long: L(
-      'Casquettes brodées ou imprimées avec message ou design unique. Plusieurs coloris au choix.',
-      'Embroidered or printed caps with unique message or design. Multiple colours.',
-    ),
-    priceCents: 1990, stock: 80,
-  },
-  {
-    slug: 'mochilas-aniversario',
-    category: 'birthday',
-    name: L('Sacs à Dos Personnalisés', 'Personalised Backpacks'),
-    short: L('Sacs à dos avec prénom', 'Backpacks with name'),
-    long: L(
-      'Sacs à dos pour enfants ou adultes avec broderie ou impression du prénom. Plusieurs tailles et coloris.',
-      'Backpacks for kids or adults with embroidered or printed name. Multiple sizes and colours.',
-    ),
-    priceCents: 3890, stock: 50,
-  },
-  {
-    slug: 'garrafas-isotermicas-aniversario',
-    category: 'birthday',
-    name: L('Bouteilles Isothermes Anniversaire', 'Birthday Insulated Bottles'),
-    short: L('Bouteilles thermos festives', 'Festive thermos bottles'),
-    long: L(
-      'Bouteilles isothermes avec gravure du prénom, âge ou message. Cadeau pratique et durable.',
-      'Insulated bottles engraved with name, age or message. A practical, durable gift.',
-    ),
-    priceCents: 2890, stock: 70,
-  },
-  {
-    slug: 'placas-decorativas-aniversario',
-    category: 'birthday',
-    name: L('Plaques Décoratives', 'Decorative Plaques'),
-    short: L('Plaques personnalisées de décoration', 'Personalised decorative plaques'),
-    long: L(
-      'Plaques en bois, acrylique ou métal pour décorer la fête. Impression UV ou gravure laser au choix.',
-      'Wood, acrylic or metal plaques to decorate the party. UV print or laser engraving available.',
-    ),
-    priceCents: 1990, stock: 80,
-  },
-  {
-    slug: 'kit-surpresa-personalizado',
-    category: 'birthday',
-    name: L('Kit Surprise Personnalisé', 'Personalised Surprise Kit'),
-    short: L('Coffret surprise sur mesure', 'Bespoke surprise box'),
-    long: L(
-      'Coffret surprise contenant ballons, bouteille personnalisée, t-shirt et plaque décorative. Le tout sur mesure.',
-      'Surprise box with balloons, personalised bottle, t-shirt and decorative plaque. All custom-made.',
-    ),
-    priceCents: 8900, stock: 25, featured: true,
-  },
-  {
-    slug: 'lembrancas-3d-aniversario',
-    category: 'birthday',
-    name: L('Souvenirs 3D Personnalisés', '3D Personalised Keepsakes'),
-    short: L('Figurines 3D imprimées sur mesure', 'Custom 3D-printed figurines'),
-    long: L(
-      'Figurines imprimées en 3D au design unique : prénom en lettres, personnages, objets thématiques. Plusieurs coloris.',
-      'Custom 3D-printed figurines: name letters, characters, themed objects. Multiple colours.',
-    ),
-    priceCents: 2490, stock: 60,
-  },
+  // Customizable Products - 10 produtos
+  { slug: 'custom-engraved-pen', category: 'customizable_products', name: JSON.stringify({ pt: 'Caneta Gravada Personalizada', fr: 'Stylo Gravé Personnalisé', en: 'Engraved Custom Pen', de: 'Gravierter personalisierter Stift' }), shortDescription: JSON.stringify({ pt: 'Caneta de metal com gravação', fr: 'Stylo en métal avec gravure', en: 'Metal pen with engraving', de: 'Metallstift mit Gravur' }), longDescription: JSON.stringify({ pt: 'Caneta de metal de qualidade premium com gravação laser personalizada do nome.', fr: 'Stylo en métal haut de gamme avec gravure laser personnalisée.', en: 'Premium metal pen with custom laser-engraved name.', de: 'Premium-Metallstift mit personalisierter Lasergravur.' }), priceCents: 2200, stock: 35, featured: true },
+  { slug: 'custom-phone-case', category: 'customizable_products', name: JSON.stringify({ pt: 'Capa de Telemóvel Personalizada', fr: 'Coque de Téléphone Personnalisée', en: 'Custom Phone Case', de: 'Personalisiertes Telefongehäuse' }), shortDescription: JSON.stringify({ pt: 'Capa com impressão UV personalizada', fr: 'Coque avec impression UV personnalisée', en: 'Case with custom UV printing', de: 'Gehäuse mit personalisiertem UV-Druck' }), longDescription: JSON.stringify({ pt: 'Capa de telemóvel com impressão UV personalizada com foto ou design.', fr: 'Coque de téléphone avec impression UV personnalisée avec photo.', en: 'Phone case with custom UV printing of your photo or design.', de: 'Telefongehäuse mit personalisiertem UV-Druck Ihres Fotos.' }), priceCents: 2800, stock: 40 },
+  { slug: 'custom-t-shirt-print', category: 'customizable_products', name: JSON.stringify({ pt: 'T-Shirt Impresso Personalizado', fr: 'T-Shirt Imprimé Personnalisé', en: 'Custom Printed T-Shirt', de: 'Personalisiertes bedrucktes T-Shirt' }), shortDescription: JSON.stringify({ pt: 'T-shirt com sublimação personalizada', fr: 'T-shirt avec sublimation personnalisée', en: 'T-shirt with custom sublimation', de: 'T-Shirt mit personalisierter Sublimation' }), longDescription: JSON.stringify({ pt: 'T-shirt 100% algodão com impressão UV personalizada de qualidade.', fr: 'T-shirt 100% coton avec impression UV personnalisée.', en: '100% cotton t-shirt with quality custom UV printing.', de: '100% Baumwoll-T-Shirt mit hochwertigem personalisiertem UV-Druck.' }), priceCents: 2500, stock: 28 },
+  { slug: 'custom-wooden-puzzle', category: 'customizable_products', name: JSON.stringify({ pt: 'Puzzle de Madeira Personalizado', fr: 'Puzzle en Bois Personnalisé', en: 'Custom Wooden Puzzle', de: 'Personalisiertes Holz-Puzzle' }), shortDescription: JSON.stringify({ pt: 'Puzzle com imagem personalizada', fr: 'Puzzle avec image personnalisée', en: 'Puzzle with custom image', de: 'Puzzle mit benutzerdefiniertem Bild' }), longDescription: JSON.stringify({ pt: 'Puzzle em madeira com a sua foto ou design, gravado a laser.', fr: 'Puzzle en bois avec votre photo ou design, gravé au laser.', en: 'Wooden puzzle with your custom photo or design, laser-engraved.', de: 'Holz-Puzzle mit Ihrem benutzerdefinierten Foto oder Design, lasergraviert.' }), priceCents: 3500, stock: 18, featured: true },
+  { slug: 'custom-leather-wallet', category: 'customizable_products', name: JSON.stringify({ pt: 'Carteira de Couro Personalizada', fr: 'Portefeuille Cuir Personnalisé', en: 'Custom Leather Wallet', de: 'Personalisierte Lederbrieftasche' }), shortDescription: JSON.stringify({ pt: 'Carteira em couro com gravação', fr: 'Portefeuille en cuir avec gravure', en: 'Leather wallet with engraving', de: 'Lederbrieftasche mit Gravur' }), longDescription: JSON.stringify({ pt: 'Carteira de couro genuíno com gravação laser personalizada das iniciais.', fr: 'Portefeuille en cuir véritable avec gravure laser des initiales.', en: 'Genuine leather wallet with personalized laser-engraved initials.', de: 'Echte Lederbrieftasche mit personalisierten graviertem Initialen.' }), priceCents: 4500, stock: 12 },
+  { slug: 'custom-coffee-mug', category: 'customizable_products', name: JSON.stringify({ pt: 'Caneca Personalizada com Foto', fr: 'Mug Personnalisé avec Photo', en: 'Custom Photo Mug', de: 'Personalisierter Fotokaffeebecher' }), shortDescription: JSON.stringify({ pt: 'Caneca com impressão UV personalizada', fr: 'Mug avec impression UV personnalisée', en: 'Mug with custom UV photo printing', de: 'Becher mit personalisiertem UV-Fotodruck' }), longDescription: JSON.stringify({ pt: 'Caneca de cerâmica com impressão UV personalizada da sua foto.', fr: 'Mug en céramique avec impression UV personnalisée de votre photo.', en: 'Ceramic mug with custom UV photo printing on both sides.', de: 'Keramikbecher mit personalisiertem UV-Fotodruck.' }), priceCents: 1800, stock: 50 },
+  { slug: 'custom-canvas-print', category: 'customizable_products', name: JSON.stringify({ pt: 'Quadro em Tela Personalizado', fr: 'Tableau Toile Personnalisé', en: 'Custom Canvas Print', de: 'Personalisierter Leinwanddruck' }), shortDescription: JSON.stringify({ pt: 'Tela impressa com sua imagem', fr: 'Toile imprimée avec votre image', en: 'Canvas printed with your image', de: 'Leinwand mit Ihrem Bild bedruckt' }), longDescription: JSON.stringify({ pt: 'Quadro em tela impressa com sua foto ou design, pronto para pendurar.', fr: 'Tableau en toile imprimé avec votre photo, prêt à accrocher.', en: 'Canvas print with your custom photo or design, ready to hang.', de: 'Leinwanddruck mit Ihrem Foto oder Design, fertig zum Aufhängen.' }), priceCents: 5500, stock: 10, featured: true },
+  { slug: 'custom-mousepad', category: 'customizable_products', name: JSON.stringify({ pt: 'Tapete de Rato Personalizado', fr: 'Tapis Souris Personnalisé', en: 'Custom Mouse Pad', de: 'Personalisiertes Mousepad' }), shortDescription: JSON.stringify({ pt: 'Mousepad com impressão personalizada', fr: 'Tapis souris avec impression personnalisée', en: 'Mouse pad with custom printing', de: 'Mousepad mit personalisiertem Druck' }), longDescription: JSON.stringify({ pt: 'Tapete de rato com base antiderrapante e impressão UV personalizada.', fr: 'Tapis souris avec base antidérapante et impression UV personnalisée.', en: 'Mouse pad with non-slip base and custom UV printing.', de: 'Mousepad mit rutschfester Basis und personalisiertem UV-Druck.' }), priceCents: 1200, stock: 60 },
+  { slug: 'custom-bottle-tumbler', category: 'customizable_products', name: JSON.stringify({ pt: 'Garrafa Térmica Personalizada', fr: 'Bouteille Isotherme Personnalisée', en: 'Custom Insulated Bottle', de: 'Personalisierte isolierte Flasche' }), shortDescription: JSON.stringify({ pt: 'Garrafa com gravação personalizada', fr: 'Bouteille avec gravure personnalisée', en: 'Bottle with custom engraving', de: 'Flasche mit personalisierter Gravur' }), longDescription: JSON.stringify({ pt: 'Garrafa térmica dupla com gravação laser personalizada do nome.', fr: 'Bouteille isotherme double avec gravure laser personnalisée.', en: 'Double-wall insulated bottle with custom laser engraving.', de: 'Doppelwandige isolierte Flasche mit personalisierter Lasergravur.' }), priceCents: 2800, stock: 32 },
+  { slug: 'custom-plaques-nameplate', category: 'customizable_products', name: JSON.stringify({ pt: 'Placa de Espelho Personalizada', fr: 'Plaque Miroir Personnalisée', en: 'Custom Mirror Plaque', de: 'Personalisierter Spiegelplakette' }), shortDescription: JSON.stringify({ pt: 'Placa em espelho com gravação', fr: 'Plaque miroir avec gravure', en: 'Mirror plaque with engraving', de: 'Spiegelplakette mit Gravur' }), longDescription: JSON.stringify({ pt: 'Placa em espelho acrílico com gravação laser personalizada, pronta para pendurar.', fr: 'Plaque en miroir acrylique avec gravure laser personnalisée.', en: 'Acrylic mirror plaque with custom laser engraving, ready to hang.', de: 'Acryl-Spiegelplakette mit personalisierter Lasergravur, fertig zum Aufhängen.' }), priceCents: 3200, stock: 22 },
 ];
 
 async function main() {
-  console.log('🌱 Seeding database...');
+  console.log('🌱 Iniciando seed de produtos...');
 
-  // Wipe existing products to make seed idempotent.
-  await prisma.product.deleteMany();
+  await prisma.product.deleteMany({});
+  console.log('✅ Produtos existentes removidos');
 
-  for (const p of products) {
-    await prisma.product.create({
-      data: {
-        slug: p.slug,
-        category: p.category,
-        name: j(p.name),
-        shortDescription: j(p.short),
-        longDescription: j(p.long),
-        priceCents: p.priceCents,
-        stock: p.stock,
-        featured: p.featured ?? false,
-        active: true,
-        leadTime: '5-7 jours ouvrables',
-        customizable: true,
-      },
-    });
+  let count = 0;
+  for (const product of products) {
+    await prisma.product.create({ data: product });
+    count++;
   }
-  console.log(`✅ Inserted ${products.length} products.`);
 
-  // Seed admin user (stored in Setting table because we use NextAuth Credentials)
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@kadoa.ch';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'change-me-strong-password';
-  const passwordHash = await bcrypt.hash(adminPassword, 10);
-
-  await prisma.setting.upsert({
-    where: { key: 'admin_email' },
-    create: { key: 'admin_email', value: adminEmail },
-    update: { value: adminEmail },
-  });
-  await prisma.setting.upsert({
-    where: { key: 'admin_password_hash' },
-    create: { key: 'admin_password_hash', value: passwordHash },
-    update: { value: passwordHash },
-  });
-  console.log(`✅ Admin user seeded (${adminEmail}).`);
-
-  // Default settings
-  const defaults: Array<[string, string]> = [
-    ['shipping_flat_cents', '900'],         // 9.00 CHF flat shipping
-    ['free_shipping_threshold_cents', '15000'], // free shipping over 150 CHF
-    ['payment_stripe_enabled', 'true'],
-    ['payment_twint_enabled', 'true'],
-    ['payment_paypal_enabled', 'false'],
-    ['payment_bank_transfer_enabled', 'true'],
-    ['business_hours', 'Lun-Ven 9h-18h, Sam 10h-15h'],
-  ];
-  for (const [k, v] of defaults) {
-    await prisma.setting.upsert({
-      where: { key: k },
-      create: { key: k, value: v },
-      update: {},
-    });
-  }
-  console.log('✅ Default settings seeded.');
+  console.log(`\n🎉 Seed completo! ${count} produtos criados.`);
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
+  .then(() => prisma.$disconnect())
+  .catch(async (e) => {
+    console.error('❌ Erro:', e);
     await prisma.$disconnect();
+    process.exit(1);
   });
